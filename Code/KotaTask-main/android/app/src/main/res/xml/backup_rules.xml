@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Правила Auto Backup для Android 6–11 (API 23–30).
+    Включаем: настройки пользователя (SharedPreferences) и базу задач (Room).
+
+    Room работает в режиме JournalMode.TRUNCATE: WAL-файл не создаётся, все
+    записи фиксируются прямо в mark_db. Исключения для -wal/-shm/-journal
+    оставлены на случай обновления с более старой версии приложения.
+-->
+<full-backup-content>
+    <include domain="sharedpref" path="mark_prefs.xml"/>
+    <include domain="database"   path="mark_db"/>
+    <exclude domain="database"   path="mark_db-wal"/>
+    <exclude domain="database"   path="mark_db-shm"/>
+    <exclude domain="database"   path="mark_db-journal"/>
+</full-backup-content>

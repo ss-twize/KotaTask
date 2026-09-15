@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_today"
+        android:icon="@drawable/ic_target"
+        android:title="@string/nav_today"/>
+    <item
+        android:id="@+id/nav_stack"
+        android:icon="@drawable/ic_stack"
+        android:title="@string/nav_stack"/>
+    <!-- Пустой слот по центру: под ним живёт FAB добавления задачи. -->
+    <item
+        android:id="@+id/nav_placeholder"
+        android:icon="@drawable/ic_nav_placeholder"
+        android:enabled="false"
+        android:title=""/>
+    <item
+        android:id="@+id/nav_calendar"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/nav_calendar"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/screen_title_settings"/>
+</menu>

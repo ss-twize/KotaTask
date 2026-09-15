@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KotaTask</string>
+    <string name="app_tagline">Свобода. Контроль. Свежесть.</string>
+    <string name="app_greeting">Привет!</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_today">Сегодня</string>
+    <string name="nav_stack">Стек</string>
+    <string name="nav_tasks">Задачи</string>
+    <string name="nav_calendar">Календарь</string>
+    <string name="nav_folders">Папки</string>
+    <string name="nav_archive">Архив</string>
+    <string name="stack_heading_merged">Все задачи</string>
+
+    <!-- Legacy tabs (still used in CalendarFragment maybe) -->
+    <string name="tab_add">Добавить</string>
+    <string name="tab_today">Сегодня</string>
+    <string name="tab_stack">Стек</string>
+    <string name="tab_archive">Архив</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="tab_calendar">Календарь</string>
+
+    <!-- Top bar -->
+    <string name="topbar_settings">Настройки</string>
+    <string name="topbar_add_task">Новая задача</string>
+
+    <!-- Add Task Form -->
+    <string name="addtask_title">Новая задача</string>
+    <string name="addtask_subtitle">Заполни поля — мы сами расставим приоритет</string>
+    <string name="label_title">Название</string>
+    <string name="hint_title">Что нужно сделать?</string>
+    <string name="label_deadline">Дедлайн</string>
+    <string name="hint_deadline">Выберите дату</string>
+    <string name="label_parent">Проект</string>
+    <string name="hint_parent">В рамках какого проекта?</string>
+    <string name="label_purpose">Контекст</string>
+    <string name="hint_purpose">Почему это важно?</string>
+    <string name="label_duration">Время (мин)</string>
+    <string name="label_importance">Важность</string>
+    <string name="label_assignee">Делегировать</string>
+    <string name="hint_assignee">email@example.com</string>
+    <string name="btn_add_task">Создать задачу</string>
+    <string name="btn_save_task">Сохранить изменения</string>
+    <string name="edittask_subtitle">Измени любые поля и нажми «Сохранить»</string>
+    <string name="hint_no_deadline">Без дедлайна</string>
+    <string name="label_deadline_start">Начало дедлайна (опционально)</string>
+    <string name="hint_no_deadline_start">По умолчанию — дата создания</string>
+
+    <!-- Importance -->
+    <string name="importance_high">Высокая</string>
+    <string name="importance_medium">Средняя</string>
+    <string name="importance_low">Низкая</string>
+
+    <!-- Status -->
+    <string name="status_stack">Стек</string>
+    <string name="status_today">Сегодня</string>
+    <string name="status_archive">Архив</string>
+
+    <!-- Actions -->
+    <string name="action_complete">Выполнить</string>
+    <string name="action_to_stack">В стек</string>
+    <string name="action_to_today">В сегодня</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_defer">Отложить</string>
+    <string name="defer_picker_title">Отложить до</string>
+    <string name="defer_cleared">Отложенность снята</string>
+    <string name="folder_delete_title">Удалить «%s»?</string>
+    <string name="folder_delete_message">Задачи из этой папки не удалятся — они просто потеряют привязку.</string>
+
+    <!-- Today tab -->
+    <string name="today_heading">План на сегодня</string>
+    <string name="today_subheading">Сфокусируйся на главном</string>
+    <string name="today_empty">Свободный день\nДобавь задачу из стека или создай новую</string>
+    <string name="today_load_label">Загрузка</string>
+    <string name="today_load_label_short">Загрузка дня</string>
+    <string name="today_minutes">мин</string>
+    <string name="today_tasks_count">%1$d задач</string>
+    <string name="today_load_ok">В норме</string>
+    <string name="today_load_warn">Плотно</string>
+    <string name="today_load_over">Перегруз</string>
+
+    <!-- Stack tab -->
+    <string name="stack_heading">Стек задач</string>
+    <string name="stack_subheading">Бэклог, готовый к разбору</string>
+    <string name="stack_empty">Стек пуст\nСоздайте новую задачу, чтобы начать</string>
+    <string name="empty_title_stack">Стек пуст</string>
+    <string name="empty_subtitle_stack">Создай новую задачу, чтобы начать</string>
+    <string name="empty_title_merged">Задач нет</string>
+    <string name="empty_subtitle_merged">Создайте новую, чтобы начать</string>
+    <string name="stack_total">Всего</string>
+    <string name="stack_tasks">задач</string>
+    <string name="stack_in_today">В сегодня:</string>
+    <string name="stack_search_hint">Поиск по задачам…</string>
+
+    <!-- Archive tab -->
+    <string name="archive_heading">Архив</string>
+    <string name="archive_subheading">Что уже сделано</string>
+    <string name="archive_empty">Архив пуст\nВыполненные задачи появятся здесь</string>
+    <string name="archive_completed">Завершено:</string>
+    <string name="archive_select">Выбрать</string>
+    <string name="archive_select_done">Готово</string>
+    <string name="archive_delete_selected">Удалить выбранные</string>
+    <string name="archive_delete_all">Очистить архив</string>
+    <string name="archive_confirm_selected_title">Удалить выбранные?</string>
+    <string name="archive_confirm_all_title">Удалить весь архив?</string>
+    <string name="archive_confirm_msg">Это действие нельзя отменить.</string>
+
+    <!-- Settings -->
+    <string name="settings_heading">Настройки</string>
+    <string name="settings_subheading">Подстрой алгоритм под себя</string>
+    <string name="settings_algorithm_section">Алгоритмы</string>
+    <string name="settings_title">Алгоритм приоритета</string>
+    <string name="settings_desc">Подстройте веса для расчёта приоритета задач</string>
+    <string name="coeff_deadline">Дедлайн</string>
+    <string name="coeff_importance">Важность</string>
+    <string name="coeff_duration">Длительность</string>
+    <string name="coeff_age">Возраст задачи</string>
+    <string name="settings_load_section">Загруженность</string>
+    <string name="settings_load_title">Лимит перегруза</string>
+    <string name="settings_overload_limit">Максимальная загрузка</string>
+    <string name="settings_load_duration_boost">Влияние загрузки</string>
+    <string name="settings_info">Задачи получают авто-буст по длительности после половины максимальной загрузки</string>
+    <string name="settings_defaults">По умолчанию</string>
+    <string name="btn_save_settings">Сохранить</string>
+    <string name="settings_saved">Настройки сохранены</string>
+    <string name="settings_folders_button">Папки</string>
+    <string name="settings_archive_button">Архив задач</string>
+
+    <!-- Messages -->
+    <string name="task_added">Задача добавлена</string>
+    <string name="task_completed">Задача выполнена</string>
+    <string name="task_deleted">Задача удалена</string>
+    <string name="task_moved_today">Перемещено в «Сегодня»</string>
+    <string name="task_moved_stack">Перемещено в стек</string>
+    <string name="error_empty_title">Введите название задачи</string>
+    <string name="confirm_delete_title">Удалить задачу?</string>
+    <string name="confirm_delete_msg">Это действие нельзя отменить</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_delete">Удалить</string>
+    <string name="btn_ok">ОК</string>
+    <string name="confirm_delete_task_title">Удалить задачу?</string>
+    <string name="confirm_delete_task_msg">Это действие нельзя отменить.</string>
+    <string name="hint_duration_range">От 1 до 600 минут</string>
+    <string name="error_empty_category_name">Введите название</string>
+    <string name="error_duration_range">Введите от 1 до 600 минут</string>
+    <string name="error_required_deadline">Укажите дедлайн</string>
+    <string name="error_required_duration">Укажите длительность</string>
+    <string name="error_required_purpose">Опишите цель задачи</string>
+    <string name="notification_morning_title">Доброе утро</string>
+    <string name="notification_morning_summary">Открой приложение, чтобы увидеть план дня</string>
+    <string name="notification_channel_daily">Утренний план</string>
+    <string name="btn_close">Закрыть</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">Ежедневный план</string>
+    <string name="notif_channel_desc">Утренние уведомления о задачах на сегодня</string>
+    <string name="notif_title">Ваш план на сегодня</string>
+    <string name="notif_no_tasks">Нет задач на сегодня</string>
+    <string name="notif_and_more">и ещё %1$d…</string>
+
+    <!-- Notifications settings -->
+    <string name="settings_notif_section">Уведомления</string>
+    <string name="settings_notif_title">Ежедневное напоминание</string>
+    <string name="settings_notif_desc">Напоминание проверить задачи на сегодня</string>
+    <string name="settings_notif_time">Время</string>
+    <string name="settings_notif_time_hint">Выбери удобное время</string>
+
+    <!-- Theme -->
+    <string name="theme_section_title">Оформление</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="theme_system">Как на устройстве</string>
+
+    <!-- Calendar display mode settings -->
+    <string name="settings_calendar_section">Календарь</string>
+    <string name="settings_calendar_mode_title">Режим отображения дедлайнов</string>
+    <string name="calendar_mode_range">Диапазон — задача видна весь период</string>
+    <string name="calendar_mode_point">Только день дедлайна</string>
+
+    <!-- Calendar tab -->
+    <string name="calendar_heading">Календарь</string>
+    <string name="calendar_subheading">Задачи по датам</string>
+    <string name="cal_select_hint">Выберите дату на календаре</string>
+    <string name="cal_today">Сегодня</string>
+
+    <!-- Sort -->
+    <string name="sort_label">Сортировка</string>
+
+    <!-- Score / labels -->
+    <string name="score_label">Приоритет</string>
+    <string name="delegated_label">Делегировано:</string>
+    <string name="duration_label">мин</string>
+    <string name="overdue_label">Просрочено</string>
+    <string name="deadline_today_label">Сегодня</string>
+    <string name="due_today">Дедлайн сегодня</string>
+    <string name="due_overdue">Просрочено</string>
+
+    <!-- Day load chip -->
+    <string name="day_load_template">%1$d мин · %2$d задач</string>
+
+    <!-- Accessibility -->
+    <string name="cd_settings">Открыть настройки</string>
+    <string name="cd_add_task">Создать задачу</string>
+    <string name="cd_close">Закрыть</string>
+    <string name="cd_score">Приоритет задачи</string>
+    <string name="cd_back">Назад</string>
+    <string name="cd_donate">Поддержать проект</string>
+
+    <!-- Top app bar dynamic title default -->
+    <string name="screen_title_today">Сегодня</string>
+    <string name="screen_title_stack">Стек</string>
+    <string name="screen_title_calendar">Календарь</string>
+    <string name="screen_title_archive">Архив</string>
+    <string name="screen_title_folders">Папки</string>
+    <string name="screen_title_settings">Настройки</string>
+    <string name="screen_title_add">Новая задача</string>
+    <string name="screen_title_edit">Редактирование</string>
+    <string name="screen_title_categories">Категории задач</string>
+    <string name="screen_title_projects">Проекты</string>
+    <string name="screen_title_locations">Локации</string>
+    <string name="screen_title_task_types">Типы задач</string>
+
+    <!-- Folders / categories UX -->
+    <string name="folders_section_projects">Проекты</string>
+    <string name="folders_section_locations">Локации</string>
+    <string name="folders_section_types">Типы задач</string>
+    <string name="folders_none_project">Без проекта</string>
+    <string name="folders_none_location">Без локации</string>
+    <string name="folders_none_type">Без типа</string>
+    <string name="folders_empty">Нет задач</string>
+
+    <!-- Add-task form: new dropdowns -->
+    <string name="label_project">Проект</string>
+    <string name="label_location">Локация</string>
+    <string name="label_task_type">Тип задачи</string>
+    <string name="hint_project">Не выбран</string>
+    <string name="hint_location">Не выбрана</string>
+    <string name="hint_task_type">Не выбран</string>
+    <string name="action_add_project">+ Добавить проект</string>
+    <string name="action_add_location">+ Добавить локацию</string>
+    <string name="action_add_task_type">+ Добавить тип задачи</string>
+    <string name="action_clear">Очистить</string>
+
+    <!-- Stack filters -->
+    <string name="filter_all_projects">Проект: все</string>
+    <string name="filter_all_locations">Локация: все</string>
+    <string name="filter_all_types">Тип: все</string>
+
+    <!-- Category manager -->
+    <string name="cat_add_btn">Добавить</string>
+    <string name="cat_rename">Переименовать</string>
+    <string name="cat_delete">Удалить</string>
+    <string name="cat_delete_confirm_title">Удалить категорию?</string>
+    <string name="cat_delete_confirm_msg">Связанные задачи не пропадут — у них просто очистится это поле.</string>
+    <string name="cat_empty">Пока ничего нет. Нажми «Добавить».</string>
+    <string name="cat_new_name">Название</string>
+
+    <!-- Contacts -->
+    <string name="settings_contacts_section">Контакты</string>
+    <string name="contact_email">supportkotatask@gmail.com</string>
+    <string name="contact_telegram">Telegram</string>
+    <string name="contact_suggest">Предложить изменения</string>
+
+    <!-- Settings: новые секции (продублированы из онбординга) -->
+    <string name="settings_features_section">Функции</string>
+    <string name="settings_features_title">Включённые возможности</string>
+    <string name="settings_assistance_section">Создание задач</string>
+    <string name="settings_assistance_title">Уровень помощи</string>
+    <string name="settings_fields_section">Поля формы</string>
+    <string name="settings_fields_title">Видимые поля задачи</string>
+
+    <!-- Onboarding -->
+    <string name="onb_next">Далее</string>
+    <string name="onb_back">Назад</string>
+    <string name="onb_finish">Готово</string>
+    <string name="onb_skip">Пропустить</string>
+    <string name="onb_step_format">Шаг %1$d из %2$d</string>
+
+    <string name="onb_welcome_title">Добро пожаловать в KotaTask</string>
+    <string name="onb_welcome_subtitle">Гибкий планировщик — ваши правила, ваш ритм</string>
+    <string name="onb_welcome_body">Включите только нужные функции и настройте всё под себя. Никаких лишних экранов — только то, что помогает именно вам. Все параметры можно изменить позже в разделе «Настройки».</string>
+
+    <string name="onb_system_title">Системные настройки</string>
+    <string name="onb_system_subtitle">Тема и уведомления</string>
+    <string name="onb_system_theme">Тема оформления</string>
+    <string name="onb_system_notif">Ежедневные напоминания</string>
+    <string name="onb_system_notif_desc">Получать уведомления о задачах на сегодня</string>
+    <string name="onb_system_notif_time">Время напоминания</string>
+
+    <string name="onb_features_title">Возможности</string>
+    <string name="onb_features_subtitle">Выберите функции, которые вам нужны</string>
+    <string name="onb_features_split_today">Раздельные «Сегодня» и «Стек»</string>
+    <string name="onb_features_split_today_desc">Если выключено — будет одна вкладка «Задачи»</string>
+    <string name="onb_features_calendar">Календарь</string>
+    <string name="onb_features_calendar_desc">Просмотр задач по дням</string>
+    <string name="onb_features_projects">Проекты</string>
+    <string name="onb_features_projects_desc">Группировка задач по проектам</string>
+    <string name="onb_features_categories">Локации и типы</string>
+    <string name="onb_features_categories_desc">Дополнительные категории задач</string>
+    <string name="onb_features_locations">Локации</string>
+    <string name="onb_features_locations_desc">Фильтрация задач по месту выполнения</string>
+    <string name="onb_features_task_types">Типы задач</string>
+    <string name="onb_features_task_types_desc">Дополнительная категоризация по виду задачи</string>
+    <string name="onb_features_smart_sort">Умная сортировка</string>
+    <string name="onb_features_smart_sort_desc">Автоматический приоритет по дедлайну, важности и другим факторам</string>
+    <string name="onb_features_defer">Отложенное планирование</string>
+    <string name="onb_features_defer_desc">Кнопка «Отложить» в стеке: задача сама добавится в «Сегодня» в выбранный день. Требует разделения «Сегодня» и «Стек»</string>
+
+    <string name="onb_coeffs_title">Умная сортировка</string>
+    <string name="onb_coeffs_subtitle">Настройте веса факторов приоритизации</string>
+    <string name="onb_coeffs_deadline">Дедлайн</string>
+    <string name="onb_coeffs_importance">Важность</string>
+    <string name="onb_coeffs_duration">Длительность</string>
+    <string name="onb_coeffs_age">Возраст задачи</string>
+    <string name="onb_coeffs_reset">Сбросить по умолчанию</string>
+
+    <string name="onb_overload_section">Нагрузка дня</string>
+    <string name="onb_overload_enabled">Коэффициент нагрузки</string>
+    <string name="onb_overload_enabled_desc">Повышает приоритет коротких задач при перегруженном дне</string>
+    <string name="onb_overload_limit">Лимит дня</string>
+    <string name="onb_overload_limit_desc">мин — порог перегрузки</string>
+    <string name="onb_overload_boost">Буст коротких задач</string>
+    <string name="onb_overload_reset">Сбросить нагрузку</string>
+
+    <string name="onb_calendar_title">Режим календаря</string>
+    <string name="onb_calendar_subtitle">Как отображать задачи с диапазоном</string>
+    <string name="onb_calendar_range">Весь диапазон</string>
+    <string name="onb_calendar_range_desc">Задача видна каждый день диапазона</string>
+    <string name="onb_calendar_point">Только в день дедлайна</string>
+    <string name="onb_calendar_point_desc">Задача видна только в день срока</string>
+
+    <string name="onb_assistance_title">Уровень помощи</string>
+    <string name="onb_assistance_subtitle">Сколько полей обязательно при создании задачи</string>
+    <string name="onb_assistance_minimal">Минимальный</string>
+    <string name="onb_assistance_minimal_desc">Только название задачи</string>
+    <string name="onb_assistance_standard">Стандартный</string>
+    <string name="onb_assistance_standard_desc">Название, дедлайн, важность</string>
+    <string name="onb_assistance_advanced">Продвинутый</string>
+    <string name="onb_assistance_advanced_desc">Все основные поля обязательны</string>
+    <string name="onb_assistance_custom">Свой</string>
+    <string name="onb_assistance_custom_desc">Настройте обязательные поля вручную</string>
+    <string name="btn_configure_custom_level">Настроить свой уровень</string>
+    <string name="custom_level_dialog_title">Обязательные поля</string>
+    <string name="custom_req_deadline_start">Начало дедлайна</string>
+    <string name="custom_req_deadline">Дедлайн</string>
+    <string name="custom_req_importance">Важность</string>
+    <string name="custom_req_duration">Продолжительность</string>
+    <string name="custom_req_purpose">Цель / Назначение</string>
+    <string name="custom_req_project">Проект</string>
+    <string name="custom_req_location">Локация</string>
+    <string name="custom_req_task_type">Тип задачи</string>
+
+    <string name="error_required_deadline_start">Укажите начало дедлайна</string>
+    <string name="error_required_project">Выберите проект</string>
+    <string name="error_required_location">Выберите локацию</string>
+    <string name="error_required_task_type">Выберите тип задачи</string>
+
+    <string name="required_fields_section_title">Обязательные поля</string>
+    <string name="required_fields_section_subtitle">Какие поля нужно заполнить при создании задачи</string>
+
+    <string name="onb_fields_title">Поля задачи</string>
+    <string name="onb_fields_subtitle">Какие поля показывать при создании</string>
+    <string name="onb_field_duration">Срок выполнения</string>
+    <string name="onb_field_duration_desc">Сколько минут уйдёт на задачу</string>
+    <string name="onb_field_purpose">Цель / обоснование</string>
+    <string name="onb_field_purpose_desc">Почему задача важна</string>
+    <string name="onb_field_assignee">Ответственный</string>
+    <string name="onb_field_assignee_desc">Email исполнителя</string>
+    <string name="onb_field_project">Проект</string>
+    <string name="onb_field_project_desc">К какому проекту относится</string>
+    <string name="onb_field_task_type">Тип задачи</string>
+    <string name="onb_field_task_type_desc">Вид выполняемой задачи</string>
+    <string name="onb_field_location">Локация</string>
+    <string name="onb_field_location_desc">Место выполнения задачи</string>
+</resources>

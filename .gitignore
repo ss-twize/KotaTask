@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Android / Gradle
+.gradle/
+.kotlin/
+build/
+app/build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Xcode
+xcuserdata/
+*.xcuserdatad/
+DerivedData/
+
+# IDE
+.idea/
+*.iml
+
+# Signing keys — never commit
+*.jks
+*.keystore
+
+# Tooling scratch
+.superpowers/
+
+# Build artifacts: only the newest APKs are force-added
+Code/Builds/

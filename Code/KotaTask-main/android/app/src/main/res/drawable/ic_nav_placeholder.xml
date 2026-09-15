@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Иконка-заглушка центрального слота bottom-nav (под ним живёт FAB).
+  VectorDrawable не инфлейтится без единого <path> («no path defined»),
+  поэтому рисуем прозрачный квадрат вместо пустого вектора.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M0,0h24v24h-24z"/>
+</vector>

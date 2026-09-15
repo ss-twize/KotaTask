@@ -1,0 +1,1314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_canvas"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
+
+        <!-- ═══ Subheading ═══ -->
+        <TextView
+            style="@style/Kt.Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/text_secondary"
+            android:text="@string/settings_subheading"/>
+
+        <!-- ═══ Theme card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_section_title"/>
+
+                <TextView
+                    style="@style/Kt.Text.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="18sp"
+                    android:text="Тема приложения"/>
+
+                <RadioGroup
+                    android:id="@+id/rgTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbThemeLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="@string/theme_light"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:fontFamily="@font/manrope_medium"
+                        android:paddingStart="6dp"/>
+
+                    <RadioButton
+                        android:id="@+id/rbThemeDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="@string/theme_dark"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:fontFamily="@font/manrope_medium"
+                        android:paddingStart="6dp"/>
+
+                    <RadioButton
+                        android:id="@+id/rbThemeSystem"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="@string/theme_system"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:fontFamily="@font/manrope_medium"
+                        android:paddingStart="6dp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Features card (продублировано из онбординга) ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_features_section"/>
+
+                <TextView
+                    style="@style/Kt.Text.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="18sp"
+                    android:text="@string/settings_features_title"/>
+
+                <!-- Split Today/Stack -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_split_today"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_split_today_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatSplitToday"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Deferred planning (зависит от Split Today) -->
+                <LinearLayout
+                    android:id="@+id/rowFeatDefer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_defer"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_defer_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatDefer"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Calendar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_calendar"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_calendar_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatCalendar"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Projects -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_projects"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_projects_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatProjects"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Locations -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_locations"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_locations_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatLocations"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Task types -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_task_types"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_task_types_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatTaskTypes"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Smart sort -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_features_smart_sort"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_features_smart_sort_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFeatSmartSort"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Calendar mode card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_calendar_section"/>
+
+                <TextView
+                    style="@style/Kt.Text.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="18sp"
+                    android:text="@string/settings_calendar_mode_title"/>
+
+                <RadioGroup
+                    android:id="@+id/rgCalendarMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbCalendarRange"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="@string/calendar_mode_range"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:fontFamily="@font/manrope_medium"
+                        android:paddingStart="6dp"/>
+
+                    <RadioButton
+                        android:id="@+id/rbCalendarPoint"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="@string/calendar_mode_point"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:fontFamily="@font/manrope_medium"
+                        android:paddingStart="6dp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Assistance level card (продублировано из онбординга) ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_assistance_section"/>
+
+                <TextView
+                    style="@style/Kt.Text.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="18sp"
+                    android:text="@string/settings_assistance_title"/>
+
+                <RadioGroup
+                    android:id="@+id/rgAssistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbAsstMinimal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="6dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:text="@string/onb_assistance_minimal"/>
+                    <TextView style="@style/Kt.Text.Caption"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp" android:layout_marginBottom="8dp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/onb_assistance_minimal_desc"/>
+
+                    <RadioButton
+                        android:id="@+id/rbAsstStandard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="6dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:text="@string/onb_assistance_standard"/>
+                    <TextView style="@style/Kt.Text.Caption"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp" android:layout_marginBottom="8dp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/onb_assistance_standard_desc"/>
+
+                    <RadioButton
+                        android:id="@+id/rbAsstAdvanced"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="6dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:text="@string/onb_assistance_advanced"/>
+                    <TextView style="@style/Kt.Text.Caption"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp" android:layout_marginBottom="8dp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/onb_assistance_advanced_desc"/>
+
+                    <RadioButton
+                        android:id="@+id/rbAsstCustom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="6dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:buttonTint="@color/primary"
+                        android:text="@string/onb_assistance_custom"/>
+                    <TextView style="@style/Kt.Text.Caption"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/onb_assistance_custom_desc"/>
+                </RadioGroup>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConfigureCustomLevel"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/btn_configure_custom_level"
+                    android:textColor="@color/primary"
+                    android:visibility="gone"
+                    app:strokeColor="@color/primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Task fields card (продублировано из онбординга) ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_fields_section"/>
+
+                <TextView
+                    style="@style/Kt.Text.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="18sp"
+                    android:text="@string/settings_fields_title"/>
+
+                <!-- Duration -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_field_duration"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_field_duration_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFieldDuration"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Purpose -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_field_purpose"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_field_purpose_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFieldPurpose"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Project -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_field_project"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_field_project_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFieldProject"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Task type -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_field_task_type"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_field_task_type_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFieldTaskType"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:layout_marginTop="14dp" android:layout_marginBottom="14dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Location -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
+                        <TextView style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/onb_field_location"/>
+                        <TextView style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                            android:text="@string/onb_field_location_desc"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchFieldLocation"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Notifications card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_notif_section"/>
+
+                <!-- Toggle row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/Kt.Text.BodyMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_notif_title"/>
+
+                        <TextView
+                            style="@style/Kt.Text.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_notif_desc"
+                            android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchNotif"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:checked="false"/>
+                </LinearLayout>
+
+                <!-- Time picker row (скрыт, когда уведомления выключены) -->
+                <LinearLayout
+                    android:id="@+id/rowNotifTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_pill_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/text_secondary"/>
+
+                    <TextView
+                        style="@style/Kt.Text.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_notif_time"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/tvNotifTime"
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary"
+                        android:text="08:00"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Priority weights card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/settings_algorithm_section"/>
+
+                <!-- Deadline -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/coeff_deadline"/>
+
+                    <TextView
+                        android:id="@+id/tvDeadlineVal"
+                        style="@style/Kt.Text.LabelSmall"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="0.50"
+                        android:textColor="@color/primary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekDeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="50"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="@color/primary"
+                    android:thumbTint="@color/primary"/>
+
+                <!-- Importance -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/coeff_importance"/>
+
+                    <TextView
+                        android:id="@+id/tvImportanceVal"
+                        style="@style/Kt.Text.LabelSmall"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="0.30"
+                        android:textColor="@color/primary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekImportance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="30"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="@color/primary"
+                    android:thumbTint="@color/primary"/>
+
+                <!-- Duration -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/coeff_duration"/>
+
+                    <TextView
+                        android:id="@+id/tvDurationVal"
+                        style="@style/Kt.Text.LabelSmall"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="0.15"
+                        android:textColor="@color/primary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="15"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="@color/primary"
+                    android:thumbTint="@color/primary"/>
+
+                <!-- Age -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/coeff_age"/>
+
+                    <TextView
+                        android:id="@+id/tvAgeVal"
+                        style="@style/Kt.Text.LabelSmall"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="0.05"
+                        android:textColor="@color/primary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekAge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="5"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="@color/primary"
+                    android:thumbTint="@color/primary"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResetAlgorithmDefaults"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="@string/settings_defaults"
+                    android:textColor="@color/text_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Load card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/settings_load_section"/>
+
+                <!-- Overload limit -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_overload_limit"/>
+
+                    <TextView
+                        android:id="@+id/tvOverloadLimitVal"
+                        style="@style/Kt.Text.LabelSmall"
+                        android:layout_width="76dp"
+                        android:layout_height="wrap_content"
+                        android:text="180 мин"
+                        android:textColor="@color/primary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekOverloadLimit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="840"
+                    android:progress="60"
+                    android:layout_marginBottom="6dp"
+                    android:progressTint="@color/primary"
+                    android:thumbTint="@color/primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        style="@style/Kt.Text.Micro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="120 мин"
+                        android:textColor="@color/text_tertiary"/>
+
+                    <TextView
+                        style="@style/Kt.Text.Micro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="960 мин"
+                        android:textColor="@color/text_tertiary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <!-- Load duration boost -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        style="@style/Kt.Text.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_load_duration_boost"/>
+
+                    <TextView
+                        android:id="@+id/tvLoadDurationBoostVal"
+                        style="@style/Kt.Text.LabelSmall"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="0.20"
+                        android:textColor="@color/primary"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekLoadDurationBoost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="20"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="@color/primary"
+                    android:thumbTint="@color/primary"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResetLoadDefaults"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="@string/settings_defaults"
+                    android:textColor="@color/text_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveSettings"
+            style="@style/Widget.KotaTask.Button.Hero"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/btn_save_settings"
+            app:icon="@drawable/ic_check"
+            app:iconTint="@color/hero_button_icon"
+            app:iconPadding="8dp"/>
+
+        <!-- ═══ Folders card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardFolders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenFolders"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="start|center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@string/settings_folders_button"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary"
+                app:icon="@drawable/ic_folder"
+                app:iconTint="@color/text_secondary"
+                app:iconPadding="12dp"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Archive card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenArchive"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="start|center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@string/settings_archive_button"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary"
+                app:icon="@drawable/ic_archive"
+                app:iconTint="@color/text_secondary"
+                app:iconPadding="12dp"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Contacts card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="4dp"
+                    android:text="@string/settings_contacts_section"/>
+
+                <!-- Email -->
+                <LinearLayout
+                    android:id="@+id/rowContactEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_mail"
+                        app:tint="@color/text_secondary"/>
+
+                    <TextView
+                        style="@style/Kt.Text.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/contact_email"
+                        android:textColor="@color/text_primary"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="54dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Telegram -->
+                <LinearLayout
+                    android:id="@+id/rowContactTelegram"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_telegram"
+                        app:tint="@color/text_secondary"/>
+
+                    <TextView
+                        style="@style/Kt.Text.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/contact_telegram"
+                        android:textColor="@color/text_primary"/>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/text_tertiary"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="54dp"
+                    android:background="@color/border_subtle"/>
+
+                <!-- Suggest changes -->
+                <LinearLayout
+                    android:id="@+id/rowContactSuggest"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/text_secondary"/>
+
+                    <TextView
+                        style="@style/Kt.Text.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/contact_suggest"
+                        android:textColor="@color/text_primary"/>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/text_tertiary"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

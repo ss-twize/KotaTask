@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            style="@style/Kt.Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onb_coeffs_title"/>
+
+        <TextView
+            style="@style/Kt.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/text_secondary"
+            android:text="@string/onb_coeffs_subtitle"/>
+
+        <!-- Deadline -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+            <TextView style="@style/Kt.Text.BodyMedium"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/onb_coeffs_deadline"/>
+            <TextView
+                android:id="@+id/onbTvDeadlineVal"
+                style="@style/Kt.Text.BodyMedium"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="0.45"/>
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/onbSeekDeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+        <!-- Importance -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView style="@style/Kt.Text.BodyMedium"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/onb_coeffs_importance"/>
+            <TextView
+                android:id="@+id/onbTvImportanceVal"
+                style="@style/Kt.Text.BodyMedium"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="0.35"/>
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/onbSeekImportance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+        <!-- Duration -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView style="@style/Kt.Text.BodyMedium"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/onb_coeffs_duration"/>
+            <TextView
+                android:id="@+id/onbTvDurationVal"
+                style="@style/Kt.Text.BodyMedium"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="0.10"/>
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/onbSeekDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+        <!-- Age -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView style="@style/Kt.Text.BodyMedium"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/onb_coeffs_age"/>
+            <TextView
+                android:id="@+id/onbTvAgeVal"
+                style="@style/Kt.Text.BodyMedium"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="0.10"/>
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/onbSeekAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/onbBtnResetCoeffs"
+            style="@style/Widget.KotaTask.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/onb_coeffs_reset"/>
+
+        <!-- ── Overload section ─────────────────────────── -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/border_subtle"/>
+
+        <TextView
+            style="@style/Kt.Text.H3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onb_overload_section"/>
+
+        <!-- Toggle row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView
+                    style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/onb_overload_enabled"/>
+                <TextView
+                    style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/text_secondary"
+                    android:text="@string/onb_overload_enabled_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchOverload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Collapsible settings (shown only when toggle is ON) -->
+        <LinearLayout
+            android:id="@+id/onbOverloadSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <!-- Overload limit -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/onb_overload_limit"/>
+                <TextView
+                    android:id="@+id/onbTvOverloadLimitVal"
+                    style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="180 мин"/>
+            </LinearLayout>
+            <SeekBar
+                android:id="@+id/onbSeekOverloadLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="84"/>
+
+            <!-- Load duration boost -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/onb_overload_boost"/>
+                <TextView
+                    android:id="@+id/onbTvOverloadBoostVal"
+                    style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.20"/>
+            </LinearLayout>
+            <SeekBar
+                android:id="@+id/onbSeekOverloadBoost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/onbBtnResetOverload"
+                style="@style/Widget.KotaTask.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/onb_overload_reset"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

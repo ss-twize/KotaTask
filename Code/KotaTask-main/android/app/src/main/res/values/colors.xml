@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ═══════════════════════════════════════════════════════
+         KotaTask Brand Palette
+         ═══════════════════════════════════════════════════════ -->
+
+    <!-- Brand: Jordy Blue (Main) -->
+    <color name="brand_blue">#7FB5EC</color>
+    <color name="brand_blue_50">#EEF5FD</color>
+    <color name="brand_blue_100">#DCEAFB</color>
+    <color name="brand_blue_200">#B9D5F6</color>
+    <color name="brand_blue_400">#7FB5EC</color>
+    <color name="brand_blue_500">#5A9BE0</color>
+    <color name="brand_blue_700">#3672B8</color>
+    <color name="brand_blue_900">#1E4A82</color>
+
+    <!-- Brand: Carnation (Red — High importance / Error) -->
+    <color name="brand_red">#F25757</color>
+    <color name="brand_red_50">#FEEDED</color>
+    <color name="brand_red_100">#FCDADA</color>
+    <color name="brand_red_400">#F25757</color>
+    <color name="brand_red_600">#D63E3E</color>
+    <color name="brand_red_900">#7A1F1F</color>
+
+    <!-- Brand: Sulu (Green — Low importance / Success) -->
+    <color name="brand_green">#85EF82</color>
+    <color name="brand_green_50">#EEFCEE</color>
+    <color name="brand_green_100">#D8F7D6</color>
+    <color name="brand_green_400">#85EF82</color>
+    <color name="brand_green_600">#5BC758</color>
+    <color name="brand_green_900">#1E5C1C</color>
+
+    <!-- Brand: Paris Daisy (Yellow — Medium importance / Warning) -->
+    <color name="brand_yellow">#FDFF73</color>
+    <color name="brand_yellow_50">#FEFEE8</color>
+    <color name="brand_yellow_100">#FDFFCF</color>
+    <color name="brand_yellow_400">#FDFF73</color>
+    <color name="brand_yellow_600">#D8DA47</color>
+    <color name="brand_yellow_900">#6D6F0E</color>
+
+    <!-- Brand: Neutrals -->
+    <color name="neutral_0">#FFFFFF</color>
+    <color name="neutral_50">#FAFAFA</color>
+    <color name="neutral_100">#F4F5F7</color>
+    <color name="neutral_200">#E8EAEE</color>
+    <color name="neutral_300">#D4D7DD</color>
+    <color name="neutral_400">#A8ADB6</color>
+    <color name="neutral_500">#727884</color>
+    <color name="neutral_600">#4F555F</color>
+    <color name="neutral_700">#33383F</color>
+    <color name="neutral_800">#1F2227</color>
+    <color name="neutral_900">#121417</color>
+    <color name="neutral_1000">#000000</color>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Semantic tokens (referenced everywhere)
+         ═══════════════════════════════════════════════════════ -->
+
+    <!-- Surfaces -->
+    <color name="bg_canvas">#F7F8FB</color>
+    <color name="bg_surface">#FFFFFF</color>
+    <color name="bg_surface_alt">#F4F5F7</color>
+    <color name="bg_elevated">#FFFFFF</color>
+    <color name="bg_accent_soft">#EEF5FD</color>
+    <color name="bg_hero">#7FB5EC</color>
+
+    <!-- Text -->
+    <color name="text_primary">#121417</color>
+    <color name="text_secondary">#4F555F</color>
+    <color name="text_tertiary">#727884</color>
+    <color name="text_hint">#A8ADB6</color>
+    <color name="text_inverse">#FFFFFF</color>
+    <color name="text_on_brand">#FFFFFF</color>
+    <color name="text_on_yellow">#1F2227</color>
+
+    <!-- Borders & dividers -->
+    <color name="border_subtle">#E8EAEE</color>
+    <color name="border_default">#D4D7DD</color>
+    <color name="border_strong">#1F2227</color>
+    <color name="divider">#E8EAEE</color>
+
+    <!-- Brand primary alias -->
+    <color name="primary">#7FB5EC</color>
+    <color name="primary_dark">#5A9BE0</color>
+    <color name="primary_light">#EEF5FD</color>
+    <color name="primary_container">#DCEAFB</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_primary_container">#1E4A82</color>
+
+    <!-- Отложенное планирование (deferred tasks) -->
+    <color name="defer_purple">#8842B3</color>
+
+    <!-- Semantic colors -->
+    <color name="success">#5BC758</color>
+    <color name="success_light">#EEFCEE</color>
+    <color name="on_success">#1E5C1C</color>
+    <color name="warning">#D8DA47</color>
+    <color name="warning_light">#FEFEE8</color>
+    <color name="on_warning">#6D6F0E</color>
+    <color name="error">#F25757</color>
+    <color name="error_light">#FEEDED</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <!-- Importance -->
+    <color name="importance_high">#F25757</color>
+    <color name="importance_high_bg">#FEEDED</color>
+    <color name="importance_medium">#FDFF73</color>
+    <color name="importance_medium_bg">#FEFEE8</color>
+    <color name="importance_low">#85EF82</color>
+    <color name="importance_low_bg">#EEFCEE</color>
+
+    <!-- Deadline chips -->
+    <color name="deadline_overdue">#F25757</color>
+    <color name="deadline_overdue_bg">#FEEDED</color>
+    <color name="deadline_today">#D8DA47</color>
+    <color name="deadline_today_bg">#FEFEE8</color>
+    <color name="deadline_future">#5A9BE0</color>
+    <color name="deadline_future_bg">#EEF5FD</color>
+
+    <!-- Misc legacy -->
+    <color name="background">#F7F8FB</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="overdue">#FEEDED</color>
+    <color name="today_color">#FEFEE8</color>
+    <color name="chip_bg">#EEF5FD</color>
+    <color name="status_bar_bg">#FFFFFF</color>
+    <color name="offline_color">#F25757</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="text_hint_legacy">#A8ADB6</color>
+
+    <!-- Score badge -->
+    <color name="score_bg">#FDFFCF</color>
+    <color name="score_text">#6D6F0E</color>
+
+    <!-- Accent stripe colors for cards -->
+    <color name="stripe_high">#F25757</color>
+    <color name="stripe_medium">#D8DA47</color>
+    <color name="stripe_low">#85EF82</color>
+
+    <!-- Bottom nav -->
+    <color name="nav_icon_active">#7FB5EC</color>
+    <color name="nav_icon_inactive">#A8ADB6</color>
+    <color name="nav_text_active">#1E4A82</color>
+    <color name="nav_text_inactive">#727884</color>
+    <color name="nav_indicator">#DCEAFB</color>
+
+    <!-- FAB -->
+    <color name="fab_bg">#1F2227</color>
+    <color name="fab_icon">#FDFF73</color>
+    <color name="hero_button_bg">#1F2227</color>
+    <color name="hero_button_text">#FFFFFF</color>
+    <color name="hero_button_icon">#FDFF73</color>
+
+    <!-- Day load progress -->
+    <color name="load_ok">#85EF82</color>
+    <color name="load_warn">#FDFF73</color>
+    <color name="load_over">#F25757</color>
+    <color name="load_track">#E8EAEE</color>
+</resources>

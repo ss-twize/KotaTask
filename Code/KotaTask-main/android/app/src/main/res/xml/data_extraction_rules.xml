@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Правила Auto Backup для Android 12+ (API 31+).
+    cloud-backup  — синхронизация с Google Drive (восстановление после переустановки).
+    device-transfer — перенос данных при смене устройства через Android Migrate.
+
+    Room работает в режиме JournalMode.TRUNCATE: WAL-файл не создаётся.
+    Исключения для -wal/-shm оставлены для совместимости при обновлении.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="sharedpref" path="mark_prefs.xml"/>
+        <include domain="database"   path="mark_db"/>
+        <exclude domain="database"   path="mark_db-wal"/>
+        <exclude domain="database"   path="mark_db-shm"/>
+    </cloud-backup>
+    <device-transfer>
+        <include domain="sharedpref" path="mark_prefs.xml"/>
+        <include domain="database"   path="mark_db"/>
+        <exclude domain="database"   path="mark_db-wal"/>
+        <exclude domain="database"   path="mark_db-shm"/>
+    </device-transfer>
+</data-extraction-rules>

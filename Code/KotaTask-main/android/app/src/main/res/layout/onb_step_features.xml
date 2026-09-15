@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            style="@style/Kt.Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onb_features_title"/>
+
+        <TextView
+            style="@style/Kt.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/text_secondary"
+            android:text="@string/onb_features_subtitle"/>
+
+        <!-- Split Today/Stack -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_split_today"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_split_today_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchSplitToday"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Deferred planning (зависит от Split Today) -->
+        <LinearLayout
+            android:id="@+id/onbRowDefer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_defer"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_defer_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchDefer"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Calendar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_calendar"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_calendar_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchCalendar"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Projects -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_projects"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_projects_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchProjects"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Locations -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_locations"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_locations_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchLocations"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Task Types -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_task_types"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_task_types_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchTaskTypes"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Smart Sort -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_features_smart_sort"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_features_smart_sort_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchSmartSort"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

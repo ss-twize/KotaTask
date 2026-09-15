@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_canvas">
+
+    <!-- ═══ Header row ═══ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvArchiveInfo"
+            style="@style/Kt.Text.BodyMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/text_secondary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartSelect"
+            style="@style/Widget.KotaTask.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="@string/archive_select"
+            android:textSize="12sp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:cornerRadius="100dp"
+            android:visibility="gone"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelSelect"
+            style="@style/Widget.KotaTask.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="@string/btn_cancel"
+            android:textSize="12sp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:cornerRadius="100dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <!-- ═══ Empty state ═══ -->
+    <LinearLayout
+        android:id="@+id/emptyArchive"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_score_circle">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_archive"
+                app:tint="@color/neutral_900"/>
+        </FrameLayout>
+
+        <TextView
+            style="@style/Kt.Text.H3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Архив пуст"
+            android:gravity="center"/>
+
+        <TextView
+            style="@style/Kt.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Выполненные задачи появятся здесь"
+            android:textColor="@color/text_secondary"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- ═══ Tasks list ═══ -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvArchive"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:clipToPadding="false"/>
+
+    <!-- ═══ Bottom action bar ═══ -->
+    <LinearLayout
+        android:id="@+id/bottomActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@color/bg_surface"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteSelected"
+            style="@style/Widget.KotaTask.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/archive_delete_selected"
+            android:textSize="12sp"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_trash"
+            app:iconSize="16dp"
+            app:iconTint="@color/error"
+            android:textColor="@color/text_primary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteAll"
+            style="@style/Widget.KotaTask.Button.Danger"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:text="@string/archive_delete_all"
+            android:textSize="12sp"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_trash"
+            app:iconSize="16dp"
+            app:iconTint="@color/on_error"/>
+
+    </LinearLayout>
+
+</LinearLayout>

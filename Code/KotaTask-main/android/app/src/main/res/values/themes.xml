@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ═══════════════════════════════════════════════════════
+         Base theme: Theme.KotaTask
+         ═══════════════════════════════════════════════════════ -->
+    <style name="Theme.KotaTask" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Brand colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/primary_dark</item>
+        <item name="colorOnSecondary">@color/on_primary</item>
+        <item name="colorSurface">@color/bg_surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_error</item>
+
+        <!-- Backgrounds -->
+        <item name="android:colorBackground">@color/bg_canvas</item>
+        <item name="android:windowBackground">@color/bg_canvas</item>
+        <item name="android:statusBarColor">@color/bg_canvas</item>
+        <item name="android:navigationBarColor">@color/bg_canvas</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+        <!-- Typography defaults -->
+        <item name="android:fontFamily">@font/manrope</item>
+        <item name="fontFamily">@font/manrope</item>
+
+        <!-- Text appearance overrides -->
+        <item name="textAppearanceHeadline1">@style/Kt.Text.Display</item>
+        <item name="textAppearanceHeadline2">@style/Kt.Text.H1</item>
+        <item name="textAppearanceHeadline3">@style/Kt.Text.H2</item>
+        <item name="textAppearanceHeadline4">@style/Kt.Text.H3</item>
+        <item name="textAppearanceHeadline5">@style/Kt.Text.H3</item>
+        <item name="textAppearanceHeadline6">@style/Kt.Text.Title</item>
+        <item name="textAppearanceSubtitle1">@style/Kt.Text.Title</item>
+        <item name="textAppearanceSubtitle2">@style/Kt.Text.BodyMedium</item>
+        <item name="textAppearanceBody1">@style/Kt.Text.Body</item>
+        <item name="textAppearanceBody2">@style/Kt.Text.Body</item>
+        <item name="textAppearanceCaption">@style/Kt.Text.Caption</item>
+        <item name="textAppearanceButton">@style/Kt.Text.Label</item>
+        <item name="textAppearanceOverline">@style/Kt.Text.Overline</item>
+
+        <!-- Component style overrides -->
+        <item name="materialCardViewStyle">@style/Widget.KotaTask.Card</item>
+        <item name="materialButtonStyle">@style/Widget.KotaTask.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.KotaTask.Button.Outlined</item>
+        <item name="floatingActionButtonStyle">@style/Widget.KotaTask.FAB</item>
+        <item name="bottomNavigationStyle">@style/Widget.KotaTask.BottomNav</item>
+        <item name="chipStyle">@style/Widget.KotaTask.Chip</item>
+        <item name="textInputStyle">@style/Widget.KotaTask.TextInputLayout</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.KotaTask.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.KotaTask.AlertDialog</item>
+
+        <!-- Window animations -->
+        <item name="android:windowAnimationStyle">@style/Animation.KotaTask.Window</item>
+    </style>
+
+    <!-- Backward-compat alias (some files reference Theme.Mark) -->
+    <style name="Theme.Mark" parent="Theme.KotaTask"/>
+
+    <!-- ═══════════════ Card ═══════════════ -->
+    <style name="Widget.KotaTask.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">@dimen/card_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardBackgroundColor">@color/bg_surface</item>
+        <item name="strokeColor">@color/border_subtle</item>
+        <item name="strokeWidth">@dimen/border_thin</item>
+        <item name="rippleColor">@color/primary_light</item>
+        <item name="contentPadding">0dp</item>
+    </style>
+
+    <style name="Widget.KotaTask.Card.Elevated" parent="Widget.KotaTask.Card">
+        <item name="strokeWidth">0dp</item>
+        <item name="cardElevation">@dimen/elevation_2</item>
+    </style>
+
+    <style name="Widget.KotaTask.Card.Hero" parent="Widget.KotaTask.Card">
+        <item name="cardCornerRadius">@dimen/radius_xl</item>
+        <item name="cardBackgroundColor">@color/bg_hero</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.KotaTask.Card.Outlined" parent="Widget.KotaTask.Card">
+        <item name="strokeWidth">@dimen/border_default</item>
+        <item name="strokeColor">@color/border_default</item>
+    </style>
+
+    <!-- ═══════════════ Buttons ═══════════════ -->
+    <style name="Widget.KotaTask.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAppearance">@style/Kt.Text.Label</item>
+        <item name="android:textSize">14sp</item>
+        <item name="rippleColor">@color/primary_dark</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:minHeight">@dimen/button_height_md</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Primary" parent="Widget.KotaTask.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Dark" parent="Widget.KotaTask.Button">
+        <item name="backgroundTint">@color/neutral_800</item>
+        <item name="android:textColor">@color/text_inverse</item>
+        <item name="rippleColor">@color/neutral_600</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Success" parent="Widget.KotaTask.Button">
+        <item name="backgroundTint">@color/success</item>
+        <item name="android:textColor">@color/on_success</item>
+        <item name="rippleColor">@color/brand_green_600</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Danger" parent="Widget.KotaTask.Button">
+        <item name="backgroundTint">@color/error</item>
+        <item name="android:textColor">@color/on_error</item>
+        <item name="rippleColor">@color/brand_red_600</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/border_default</item>
+        <item name="strokeWidth">@dimen/border_default</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAppearance">@style/Kt.Text.Label</item>
+        <item name="rippleColor">@color/bg_surface_alt</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:minHeight">@dimen/button_height_md</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/primary</item>
+        <item name="cornerRadius">@dimen/radius_sm</item>
+        <item name="android:textAppearance">@style/Kt.Text.Label</item>
+    </style>
+
+    <style name="Widget.KotaTask.Button.Hero" parent="Widget.KotaTask.Button.Dark">
+        <item name="backgroundTint">@color/hero_button_bg</item>
+        <item name="android:textColor">@color/hero_button_text</item>
+        <item name="iconTint">@color/hero_button_icon</item>
+        <item name="android:minHeight">@dimen/button_height_xl</item>
+        <item name="cornerRadius">@dimen/radius_lg</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingStart">28dp</item>
+        <item name="android:paddingEnd">28dp</item>
+    </style>
+
+    <!-- ═══════════════ FAB ═══════════════ -->
+    <style name="Widget.KotaTask.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/fab_bg</item>
+        <item name="tint">@color/fab_icon</item>
+        <item name="rippleColor">@color/neutral_700</item>
+        <item name="elevation">@dimen/elevation_3</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.KotaTask.FAB</item>
+    </style>
+
+    <style name="ShapeAppearance.KotaTask.FAB" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">22dp</item>
+    </style>
+
+    <!-- ═══════════════ BottomNav ═══════════════ -->
+    <style name="Widget.KotaTask.BottomNav" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/bg_surface</item>
+        <item name="itemIconTint">@color/selector_nav_icon</item>
+        <item name="itemTextColor">@color/selector_nav_text</item>
+        <item name="itemTextAppearanceActive">@style/Kt.Text.LabelSmall</item>
+        <item name="itemTextAppearanceInactive">@style/Kt.Text.Micro</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="elevation">@dimen/elevation_2</item>
+        <item name="itemPaddingTop">18dp</item>
+        <item name="itemPaddingBottom">18dp</item>
+    </style>
+
+    <!-- ═══════════════ Chips ═══════════════ -->
+    <style name="Widget.KotaTask.Chip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/bg_surface_alt</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="chipMinHeight">@dimen/chip_height</item>
+        <item name="chipCornerRadius">@dimen/radius_pill</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:textAppearance">@style/Kt.Text.LabelSmall</item>
+    </style>
+
+    <!-- ═══════════════ Text input ═══════════════ -->
+    <style name="Widget.KotaTask.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/selector_input_stroke</item>
+        <item name="boxStrokeWidth">@dimen/border_default</item>
+        <item name="boxStrokeWidthFocused">@dimen/border_thick</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_md</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_md</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_md</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_md</item>
+        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        <item name="hintEnabled">true</item>
+        <item name="hintAnimationEnabled">true</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.KotaTask.TextInput</item>
+    </style>
+
+    <style name="ThemeOverlay.KotaTask.TextInput" parent="">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnSurface">@color/text_secondary</item>
+        <item name="editTextStyle">@style/Widget.KotaTask.EditText</item>
+        <item name="android:fontFamily">@font/manrope</item>
+        <item name="fontFamily">@font/manrope</item>
+    </style>
+
+    <style name="Widget.KotaTask.EditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/manrope</item>
+        <item name="fontFamily">@font/manrope</item>
+    </style>
+
+    <!-- ═══════════════ Alert Dialog ═══════════════ -->
+    <style name="ThemeOverlay.KotaTask.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSurface">@color/bg_surface</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.KotaTask.Dialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.KotaTask.Dialog.PositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.KotaTask.Dialog.NegativeButton</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/Widget.KotaTask.Dialog.TitleText</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/Widget.KotaTask.Dialog.BodyText</item>
+    </style>
+
+    <style name="ShapeAppearance.KotaTask.Dialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_lg</item>
+    </style>
+
+    <style name="Widget.KotaTask.Dialog.TitleText" parent="Kt.Text.H3">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.KotaTask.Dialog.BodyText" parent="Kt.Text.Body">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.KotaTask.Dialog.PositiveButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textAppearance">@style/Kt.Text.Label</item>
+    </style>
+
+    <style name="Widget.KotaTask.Dialog.NegativeButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textAppearance">@style/Kt.Text.Label</item>
+    </style>
+
+    <!-- ═══════════════ Animation ═══════════════ -->
+    <style name="Animation.KotaTask.Window" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out_short</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in_short</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <!-- Legacy compat (used in some old files) -->
+    <style name="Widget.Mark.Button" parent="Widget.KotaTask.Button"/>
+    <style name="Widget.Mark.Button.Outlined" parent="Widget.KotaTask.Button.Outlined"/>
+    <style name="Widget.Mark.Card" parent="Widget.KotaTask.Card"/>
+    <style name="Widget.Mark.TabLayout" parent="Widget.MaterialComponents.TabLayout"/>
+    <style name="TabTextAppearance" parent="Kt.Text.LabelSmall"/>
+
+    <!-- ═══════════════ Splash screen ═══════════════ -->
+    <style name="Theme.KotaTask.Splash" parent="Theme.KotaTask">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/bg_canvas</item>
+    </style>
+
+</resources>

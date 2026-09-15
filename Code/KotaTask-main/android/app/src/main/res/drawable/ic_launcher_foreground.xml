@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Adaptive Icon foreground — viewport 2000×2000 (оригинальный холст SVG).
+    Фон закрашивает весь слой. Логотип помещён в <group> со scale=0.80 вокруг
+    центра (1000,1000), чтобы крайние точки фигур (≈694 units от центра)
+    уместились в любую маску лаунчера (circle, squircle, rounded-rect).
+    Без scale лого выходил за safe-zone (36dp = 667 units) → обрезка.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="2000"
+    android:viewportHeight="2000">
+
+    <!-- Фон: заполняет весь значок, включая зоны за пределами safe-zone -->
+    <path
+        android:fillColor="#BEF3FF"
+        android:pathData="M0,0 L2000,0 L2000,2000 L0,2000 Z"/>
+
+    <!-- Логотип масштабирован до 80% от оригинала (pivot = центр холста) -->
+    <group
+        android:pivotX="1000"
+        android:pivotY="1000"
+        android:scaleX="0.80"
+        android:scaleY="0.80">
+
+        <!-- Bottom-left circle  cx=779.5 cy=1192.72 r=215 -->
+        <path
+            android:fillColor="#2E89B7"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="11"
+            android:pathData="M564.5,1192.72
+                              a215,215 0 1,0 430,0
+                              a215,215 0 1,0 -430,0"/>
+
+        <!-- Top-left circle  cx=779.5 cy=807.95 r=215 -->
+        <path
+            android:fillColor="#2E89B7"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="11"
+            android:pathData="M564.5,807.95
+                              a215,215 0 1,0 430,0
+                              a215,215 0 1,0 -430,0"/>
+
+        <!-- Bottom-right circle  cx=1220.5 cy=1192.72 r=215 -->
+        <path
+            android:fillColor="#2E89B7"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="11"
+            android:pathData="M1005.5,1192.72
+                              a215,215 0 1,0 430,0
+                              a215,215 0 1,0 -430,0"/>
+
+        <!-- Top-right circle  cx=1220.5 cy=807.95 r=215 -->
+        <path
+            android:fillColor="#2E89B7"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="11"
+            android:pathData="M1005.5,807.95
+                              a215,215 0 1,0 430,0
+                              a215,215 0 1,0 -430,0"/>
+
+        <!-- Upper ellipse fill  cx=1000 cy=735.731 rx=220.5 ry=432.731 -->
+        <path
+            android:fillColor="#2E89B7"
+            android:pathData="M779.5,735.731
+                              a220.5,432.731 0 1,0 441,0
+                              a220.5,432.731 0 1,0 -441,0"/>
+
+        <!-- Upper ellipse stroke (exact bezier from SVG) -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="7"
+            android:pathData="M1000 306.5C1058.88 306.5 1113.1 353.42 1152.8 431.333C1192.4 509.055 1217 616.671 1217 735.731C1217 854.792 1192.4 962.407 1152.8 1040.13C1113.1 1118.04 1058.88 1164.96 1000 1164.96C941.116 1164.96 886.902 1118.04 847.201 1040.13C807.598 962.407 783 854.792 783 735.731C783 616.671 807.598 509.055 847.201 431.333C886.902 353.42 941.116 306.5 1000 306.5Z"/>
+
+        <!-- Lower ellipse fill  cx=1000 cy=1264.929 rx=220.5 ry=432.731 -->
+        <path
+            android:fillColor="#2E89B7"
+            android:pathData="M779.5,1264.929
+                              a220.5,432.731 0 1,0 441,0
+                              a220.5,432.731 0 1,0 -441,0"/>
+
+        <!-- Lower ellipse stroke (exact bezier from SVG) -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="7"
+            android:pathData="M1000 1694.16C1058.88 1694.16 1113.1 1647.24 1152.8 1569.33C1192.4 1491.61 1217 1383.99 1217 1264.93C1217 1145.87 1192.4 1038.26 1152.8 960.534C1113.1 882.621 1058.88 835.7 1000 835.7C941.116 835.7 886.902 882.621 847.201 960.534C807.598 1038.26 783 1145.87 783 1264.93C783 1383.99 807.598 1491.61 847.201 1569.33C886.902 1647.24 941.116 1694.16 1000 1694.16Z"/>
+
+    </group>
+
+</vector>

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_canvas"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="40dp">
+
+        <!-- ═══ Intro ═══ -->
+        <TextView
+            style="@style/Kt.Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/text_secondary"
+            android:text="@string/addtask_subtitle"/>
+
+        <!-- ═══ Form card ═══ -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/border_subtle"
+            app:cardBackgroundColor="@color/bg_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- ─── Title ─── -->
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_title"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/titleLayout"
+                    style="@style/Widget.KotaTask.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="18dp"
+                    android:hint="@string/hint_title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/manrope_semibold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ─── Deadline Start (optional) ─── -->
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_deadline_start"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/deadlineStartLayout"
+                    style="@style/Widget.KotaTask.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="18dp"
+                    android:hint="@string/hint_no_deadline_start"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_calendar_picker"
+                    app:endIconTint="@color/text_secondary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDeadlineStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:inputType="none"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ─── Deadline End ─── -->
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_deadline"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/deadlineLayout"
+                    style="@style/Widget.KotaTask.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="18dp"
+                    android:hint="@string/hint_no_deadline"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_calendar_picker"
+                    app:endIconTint="@color/text_secondary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDeadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:inputType="none"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ─── Importance pills ─── -->
+                <TextView
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_importance"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/pillImportanceLow"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:text="Низкая"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:fontFamily="@font/manrope_semibold"
+                        app:cornerRadius="100dp"
+                        app:backgroundTint="@color/bg_surface"
+                        app:strokeColor="@color/border_subtle"
+                        app:strokeWidth="1.5dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/circle_green"
+                        app:iconSize="8dp"
+                        app:iconTint="@null"
+                        app:iconPadding="6dp"
+                        app:iconGravity="start"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/pillImportanceMedium"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:text="Средняя"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:fontFamily="@font/manrope_semibold"
+                        app:cornerRadius="100dp"
+                        app:backgroundTint="@color/bg_surface"
+                        app:strokeColor="@color/border_subtle"
+                        app:strokeWidth="1.5dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/circle_yellow"
+                        app:iconSize="8dp"
+                        app:iconTint="@null"
+                        app:iconPadding="6dp"
+                        app:iconGravity="start"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/pillImportanceHigh"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:text="Высокая"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:fontFamily="@font/manrope_semibold"
+                        app:cornerRadius="100dp"
+                        app:backgroundTint="@color/bg_surface"
+                        app:strokeColor="@color/border_subtle"
+                        app:strokeWidth="1.5dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/circle_red"
+                        app:iconSize="8dp"
+                        app:iconTint="@null"
+                        app:iconPadding="6dp"
+                        app:iconGravity="start"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"/>
+                </LinearLayout>
+
+                <!-- ─── Duration ─── -->
+                <TextView
+                    android:id="@+id/tvDurationLabel"
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_duration"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/durationLayout"
+                    style="@style/Widget.KotaTask.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="18dp"
+                    android:hint="@string/hint_duration_range"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_clock"
+                    app:endIconTint="@color/text_secondary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ─── Категоризация: Project / Location / TaskType ─── -->
+                <TextView
+                    android:id="@+id/tvCategoriesHeading"
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screen_title_categories"/>
+
+                <!-- Project chip + value -->
+                <LinearLayout
+                    android:id="@+id/rowProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_pill_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_folder"
+                        app:tint="@color/text_secondary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/label_project"/>
+                    <TextView
+                        android:id="@+id/tvProjectValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:gravity="end"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary"
+                        android:text="@string/hint_project"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvProjectError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textColor="?attr/colorError"
+                    android:textSize="12sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"/>
+
+                <!-- Location row -->
+                <LinearLayout
+                    android:id="@+id/rowLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_pill_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_folder"
+                        app:tint="@color/text_secondary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/label_location"/>
+                    <TextView
+                        android:id="@+id/tvLocationValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:gravity="end"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary"
+                        android:text="@string/hint_location"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvLocationError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textColor="?attr/colorError"
+                    android:textSize="12sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"/>
+
+                <!-- TaskType row -->
+                <LinearLayout
+                    android:id="@+id/rowTaskType"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_pill_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_folder"
+                        app:tint="@color/text_secondary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:text="@string/label_task_type"/>
+                    <TextView
+                        android:id="@+id/tvTaskTypeValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:gravity="end"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary"
+                        android:text="@string/hint_task_type"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvTaskTypeError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textColor="?attr/colorError"
+                    android:textSize="12sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="14dp"/>
+
+                <!-- ─── Purpose ─── -->
+                <TextView
+                    android:id="@+id/tvPurposeLabel"
+                    style="@style/Kt.Text.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/label_purpose"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/purposeLayout"
+                    style="@style/Widget.KotaTask.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="18dp"
+                    android:hint="@string/hint_purpose">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editPurpose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:minLines="2"
+                        android:maxLines="4"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ═══ Submit button ═══ -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddTask"
+            style="@style/Widget.KotaTask.Button.Hero"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/btn_add_task"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_add"
+            app:iconTint="@color/hero_button_icon"
+            app:iconPadding="8dp"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ═══════════════════════════════════════════════════════
+         KotaTask Brand Palette — Dark theme
+         ═══════════════════════════════════════════════════════ -->
+
+    <!-- Surfaces -->
+    <color name="bg_canvas">#0E1014</color>
+    <color name="bg_surface">#1A1D23</color>
+    <color name="bg_surface_alt">#22262D</color>
+    <color name="bg_elevated">#262A32</color>
+    <color name="bg_accent_soft">#1E2A3D</color>
+    <color name="bg_hero">#5A9BE0</color>
+
+    <!-- Text -->
+    <color name="text_primary">#F4F5F7</color>
+    <color name="text_secondary">#C5C9D2</color>
+    <color name="text_tertiary">#A8ADB6</color>
+    <color name="text_hint">#727884</color>
+    <color name="text_inverse">#121417</color>
+    <color name="text_on_brand">#FFFFFF</color>
+    <color name="text_on_yellow">#1F2227</color>
+
+    <!-- Borders -->
+    <color name="border_subtle">#2D313A</color>
+    <color name="border_default">#3D424D</color>
+    <color name="border_strong">#F4F5F7</color>
+    <color name="divider">#2D313A</color>
+
+    <!-- Primary aliases -->
+    <color name="primary">#7FB5EC</color>
+    <color name="primary_dark">#5A9BE0</color>
+    <color name="primary_light">#1E2A3D</color>
+    <color name="primary_container">#1E4A82</color>
+    <color name="on_primary">#0E1014</color>
+    <color name="on_primary_container">#DCEAFB</color>
+
+    <!-- Semantic -->
+    <color name="success">#85EF82</color>
+    <color name="success_light">#1A2E1A</color>
+    <color name="on_success">#D8F7D6</color>
+    <color name="warning">#FDFF73</color>
+    <color name="warning_light">#2D2E15</color>
+    <color name="on_warning">#FDFFCF</color>
+    <color name="error">#F25757</color>
+    <color name="error_light">#2E1717</color>
+    <color name="on_error">#FCDADA</color>
+
+    <!-- Importance bg -->
+    <color name="importance_high_bg">#2E1717</color>
+    <color name="importance_medium_bg">#2D2E15</color>
+    <color name="importance_low_bg">#1A2E1A</color>
+
+    <!-- Deadline chip bg -->
+    <color name="deadline_overdue_bg">#2E1717</color>
+    <color name="deadline_today_bg">#2D2E15</color>
+    <color name="deadline_future_bg">#1E2A3D</color>
+
+    <!-- Score badge -->
+    <color name="score_bg">#2D2E15</color>
+    <color name="score_text">#FDFFCF</color>
+
+    <!-- Bottom nav -->
+    <color name="nav_icon_active">#7FB5EC</color>
+    <color name="nav_icon_inactive">#727884</color>
+    <color name="nav_text_active">#DCEAFB</color>
+    <color name="nav_text_inactive">#A8ADB6</color>
+    <color name="nav_indicator">#1E4A82</color>
+
+    <!-- FAB -->
+    <color name="fab_bg">#FDFF73</color>
+    <color name="fab_icon">#1F2227</color>
+    <color name="hero_button_bg">#FDFF73</color>
+    <color name="hero_button_text">#1F2227</color>
+    <color name="hero_button_icon">#1F2227</color>
+
+    <!-- Day load track -->
+    <color name="load_track">#2D313A</color>
+
+    <!-- Legacy -->
+    <color name="background">#0E1014</color>
+    <color name="surface">#1A1D23</color>
+    <color name="overdue">#2E1717</color>
+    <color name="today_color">#2D2E15</color>
+    <color name="chip_bg">#1E2A3D</color>
+    <color name="status_bar_bg">#1A1D23</color>
+</resources>

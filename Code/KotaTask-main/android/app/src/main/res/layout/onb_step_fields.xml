@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            style="@style/Kt.Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onb_fields_title"/>
+
+        <TextView
+            style="@style/Kt.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/text_secondary"
+            android:text="@string/onb_fields_subtitle"/>
+
+        <!-- Duration -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_field_duration"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_field_duration_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchFieldDuration"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Purpose -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_field_purpose"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_field_purpose_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchFieldPurpose"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <!-- Project -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="12dp">
+                <TextView style="@style/Kt.Text.BodyMedium"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/onb_field_project"/>
+                <TextView style="@style/Kt.Text.Caption"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:textColor="@color/text_secondary"
+                    android:text="@string/onb_field_project_desc"/>
+            </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/onbSwitchFieldProject"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- ── Required fields section ── -->
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="24dp" android:layout_marginBottom="16dp"
+            android:background="@color/border_subtle"/>
+
+        <TextView
+            style="@style/Kt.Text.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/required_fields_section_title"/>
+
+        <TextView
+            style="@style/Kt.Text.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/text_secondary"
+            android:text="@string/required_fields_section_subtitle"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqDeadlineStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_deadline_start"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqDeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_deadline"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqImportance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_importance"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_duration"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqPurpose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_purpose"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_project"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_location"/>
+
+        <CheckBox
+            android:id="@+id/onbCbReqTaskType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/custom_req_task_type"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
