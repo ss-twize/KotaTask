@@ -1,6 +1,7 @@
 # Технологический стек KotaTask
 
-**Дата документа:** 2026-05-28
+**Дата документа:** 2026-05-28 · **обновлено:** 2026-09-15
+> Полный сводный справочник по коду — [`PROJECT.md`](../../../PROJECT.md) в корне репозитория.
 **Источник:** `KotaTask-main/android/build.gradle`, `app/build.gradle`, `AndroidManifest.xml`
 
 ---
@@ -18,6 +19,7 @@
 | JVM target | 17 | `app/build.gradle` |
 | Package / namespace | `com.mark.app` | `app/build.gradle` |
 | ApplicationId | `com.mark.app` | `app/build.gradle` |
+| versionName / versionCode | **`1.0-beta`** / `1` | `app/build.gradle` |
 
 > 🔍 **Расхождение в названии**: package называется `com.mark.app` (исторический префикс),
 > хотя продукт зовётся **KotaTask**. Это видно и в `applicationId`. Переименовывать
@@ -61,13 +63,17 @@
 
 → Только Room + `SharedPreferences`. **Никакого DataStore, никаких сетевых клиентов** (`Retrofit`, `OkHttp` отсутствуют). См. [[decisions/ADR-001-explicit-room-migrations]].
 
+→ JSON локального бэкапа пишется встроенным `org.json` — внешней библиотеки нет.
+База открывается с `JournalMode.TRUNCATE`, чтобы Auto Backup видел актуальные данные без WAL.
+
 ### Background work
 | Библиотека | Версия |
 |---|---|
 | `androidx.work:work-runtime-ktx` | 2.9.0 |
 
-→ Используется только для **ежедневных уведомлений** через self-rescheduling
-`OneTimeWorkRequest`. См. [[decisions/ADR-004-self-rescheduling-worker]].
+→ Используется для **двух** self-rescheduling `OneTimeWorkRequest`:
+`NotificationWorker` (утренний дайджест) и `DeferPromoteWorker` (перенос отложенных
+задач в 00:00). См. [[decisions/ADR-004-self-rescheduling-worker]].
 
 ### Что НЕ подключено (примечательно)
 - Нет DI-фреймворка (Hilt/Koin/Dagger). Зависимости создаются вручную:
@@ -103,6 +109,7 @@ buildFeatures {
 ```gradle
 buildTypes {
     release {
+        if (hasReleaseSigning) { signingConfig signingConfigs.release }
         minifyEnabled false
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
@@ -113,12 +120,20 @@ buildTypes {
 - Подключение `proguard-rules.pro` есть, но без `minifyEnabled` оно не применяется.
 - Дебажная сборка по умолчанию.
 
+### Подпись релиза
+Читается из Gradle-свойств или переменных окружения: `RELEASE_STORE_FILE`,
+`RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`.
+`signingConfig` применяется только если заданы **все четыре**; иначе релиз собирается
+неподписанным. Ключи в репозитории не хранятся (`*.jks`, `*.keystore` в `.gitignore`).
+
 ### Кастомная Gradle-задача: автокопирование APK
 В `app/build.gradle` есть `afterEvaluate`-блок, который после каждой сборки копирует
 APK в папку `Builds/` под именем `KotaTask_${timestamp}.apk`. Удобно для версионирования
-билдов локально. Согласно auto-memory ([feedback_apk_workflow](../../../../.claude/projects/-Users-savelijsidorenko-Documents-Coding-KotaTask-backup-20260522-201538-copy-3/memory/feedback_apk_workflow.md)),
-пользовательская конвенция — `KotaTask-v{X.Y}-{feature-slug}-debug.apk`, что не совпадает
-с автогенерируемым именем по timestamp — это **расхождение**, см. [[status/mvp-scope]].
+билдов локально. Путь вычисляется как `rootProject.projectDir.parentFile.parentFile/Builds`,
+то есть жёстко завязан на структуру каталогов репозитория.
+
+Ручная конвенция именования — `KotaTask-v{X.Y}-{feature-slug}-debug.apk` — с
+автогенерируемым именем по timestamp не совпадает; в архиве присутствуют оба вида.
 
 ---
 

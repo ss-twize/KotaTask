@@ -1,6 +1,7 @@
 # Архитектура KotaTask
 
-**Дата документа:** 2026-05-28
+**Дата документа:** 2026-05-28 · **обновлено:** 2026-09-15 (схема БД v4)
+> Полный сводный справочник по коду — [`PROJECT.md`](../../../PROJECT.md) в корне репозитория.
 **Корень модуля:** `KotaTask-main/android/app/src/main/java/com/mark/app/`
 
 ---
@@ -12,7 +13,7 @@ com.mark.app/
 ├── KotaTaskApp.kt              ← Application: тема + все константы prefs
 │
 ├── data/                       ← Слой данных (Room)
-│   ├── AppDatabase.kt          ← @Database v3, миграции 1→2, 2→3
+│   ├── AppDatabase.kt          ← @Database v4, миграции 1→2, 2→3, 3→4
 │   ├── Task.kt + TaskDao.kt
 │   ├── Project.kt + ProjectDao.kt
 │   ├── Location.kt + LocationDao.kt
@@ -39,12 +40,12 @@ com.mark.app/
 │   ├── TodayFragment.kt
 │   ├── StackFragment.kt        ← + newMerged() для режима "merged"
 │   ├── CalendarFragment.kt
-│   ├── FoldersFragment.kt      ← Заменил ArchiveFragment в bottom-nav
-│   ├── ArchiveFragment.kt      ← Теперь модальный, открывается из Settings
+│   ├── FoldersFragment.kt      ← Модальный, открывается из Settings
+│   ├── ArchiveFragment.kt      ← Модальный, открывается из Settings
 │   ├── SettingsFragment.kt
 │   ├── AddTaskFragment.kt      ← Dual-mode: create / edit
 │   ├── CategoryKind.kt         ← enum { PROJECT, LOCATION, TASK_TYPE }
-│   ├── CategoryManagerFragment.kt
+│   ├── CategoryManagerFragment.kt  ← МЁРТВЫЙ КОД: нигде не инстанцируется
 │   ├── CategoryTasksFragment.kt
 │   ├── calendar/
 │   │   ├── MonthCalendarAdapter.kt
@@ -54,8 +55,10 @@ com.mark.app/
 │
 └── util/
     ├── PriorityCalculator.kt   ← Чистая функция расчёта скора
-    ├── NotificationWorker.kt   ← CoroutineWorker (WorkManager)
-    └── BootReceiver.kt         ← scheduleDaily() после ребута
+    ├── NotificationWorker.kt   ← CoroutineWorker: утренний дайджест
+    ├── DeferPromoteWorker.kt   ← CoroutineWorker: перенос отложенных задач в 00:00
+    ├── BackupExportManager.kt  ← Локальный JSON-снимок в Downloads/
+    └── BootReceiver.kt         ← перепланирует ОБА воркера после ребута
 ```
 
 ---
@@ -94,7 +97,7 @@ com.mark.app/
 │  Data (Room)                                                   │
 │  ─ AppDatabase (singleton, @Volatile)                          │
 │     entities = [Task, Project, Location, TaskType]             │
-│     version = 3, migrations: 1→2, 2→3                          │
+│     version = 4, migrations: 1→2, 2→3, 3→4                     │
 │  ─ TaskDao, ProjectDao, LocationDao, TaskTypeDao               │
 └────────────────────────────────────────────────────────────────┘
 
@@ -116,7 +119,7 @@ com.mark.app/
 
 ---
 
-## Модель данных (Room schema v3)
+## Модель данных (Room schema v4)
 
 ```
 ┌─────────────────┐       ┌──────────────────┐
@@ -138,6 +141,7 @@ com.mark.app/
 │ projectId  TEXT? │──── soft reference (без FK!) ────→ projects.id
 │ locationId TEXT? │──── soft reference                → locations.id
 │ taskTypeId TEXT? │──── soft reference                → task_types.id
+│ deferredDate TEXT│   ISO-дата автопереноса в «Сегодня» (v4)
 └─────────────────┘
 
 ┌─────────────────┐       ┌──────────────────┐
@@ -155,15 +159,23 @@ com.mark.app/
    Не AUTOINCREMENT.
 2. **Нет внешних ключей в Room**. `projectId`/`locationId`/`taskTypeId` — обычные
    nullable строки. Связь поддерживается на уровне ViewModel (`vm.allProjects.value?.find { … }`).
-   Удаление проекта **не** очищает `projectId` у задач — это можно считать багом,
-   см. [[status/mvp-scope]].
+   Удаление категории **очищает** ссылку у задач: репозиторий вызывает
+   `dao.unlinkFromTasks(id)` перед `deleteById(id)`. Защита работает только для
+   удаления через репозиторий — прямая правка БД оставит осиротевшие ссылки.
 3. **`status` — строка с русскими литералами** ("Стек"/"Сегодня"/"Архив").
    Это закрепляет связку модели и UI-локализации. См. [[decisions/ADR-007-status-russian-literals]].
 4. **`deadline` хранится как ISO-строка** (`yyyy-MM-dd`), не как timestamp.
    Сравнения идут через `LocalDate.parse(...)`. См. [[decisions/ADR-005-iso-date-strings]].
 5. **`parent` — legacy поле**: до v2 здесь хранился свободный текст "проекта".
-   После v2 заменено на `projectId`, но `parent` оставлен для миграции и для
-   старых сортировок (`SortMode.BY_PROJECT` использует `parent`, а не `projectId`).
+   После v2 заменено на `projectId`; новые задачи всегда пишут `""`.
+   `SortMode.BY_PROJECT` теперь резолвит `projectId` → имя проекта (раньше читал
+   всегда пустой `parent`, из-за чего сортировка не работала).
+6. **`deferredDate`** (schema v4) — ISO-дата отложенного планирования. Пока она не
+   наступила, задача остаётся в статусе «Стек»; в 00:00 `DeferPromoteWorker`
+   переводит её в «Сегодня» и очищает поле. Сравнение идёт строковым `<=` —
+   для ISO-дат лексикографический порядок совпадает с хронологическим.
+7. **`JournalMode.TRUNCATE`** — WAL-файл не создаётся, каждая запись фиксируется
+   прямо в `mark_db`, чтобы Auto Backup всегда видел актуальное состояние базы.
 
 ---
 
@@ -177,6 +189,9 @@ KotaTaskApp.onCreate()  ← applyTheme()
 MainActivity.onCreate()
   │
   ├── ┐
+  │   │ первый запуск НА ЭТОЙ установке? (mark_local[install_initialized])
+  │   │   → да: читаем Downloads/kotatask_backup.json, восстанавливаем настройки,
+  │   │        задачи — только если Room-база пуста
   │   │ prefs[KEY_ONBOARDING_DONE] == false?
   │   ↓ yes
   │   OnboardingActivity (7 шагов)
@@ -190,6 +205,8 @@ MainActivity.onCreate()
   ├── setupFab()
   ├── requestNotifPermission() [Android 13+]
   ├── scheduleDaily()  ← перепланируем утренний worker
+  ├── vm.promoteDueDeferred() ← catch-up отложенных задач
+  ├── scheduleDeferPromotion() ← воркер переноса на ближайшую полночь
   ├── vm.errors.observe { Toast + consumeError }
   └── showFragment(TodayFragment | Stack.newMerged)
 ```
@@ -200,8 +217,11 @@ MainActivity.onCreate()
 - `nav_today` → `TodayFragment` (если `featureSplit`)
 - `nav_stack` → `StackFragment` или `StackFragment.newMerged()` (если `!featureSplit`)
 - `nav_calendar` → `CalendarFragment` (если `featureCalendar`)
-- `nav_folders` → `FoldersFragment` (если включён любой из Projects/Locations/Task Types)
+- `nav_placeholder` → пустой слот, под ним FAB создания задачи
 - `nav_settings` → `SettingsFragment`
+
+Вкладки `nav_folders` в нижней навигации **нет**: центральный слот отдан FAB,
+а «Папки» переехали в настройки.
 
 **Модалки** (через `openModalFragment(fragment, title)` + back stack):
 - FAB → `AddTaskFragment` (создание)
@@ -209,6 +229,7 @@ MainActivity.onCreate()
 - В папке "+" → `AddTaskFragment.forCategory(kind, id)` (создание с префиллом категории)
 - Тап по папке → `CategoryTasksFragment`
 - В настройках "Архив" → `ArchiveFragment`
+- В настройках "Папки" → `FoldersFragment`
 
 Все модалки попадают в back stack под именем `modal_$title`. `OnBackStackChangedListener`
 управляет видимостью FAB и заголовком top-bar.
@@ -267,7 +288,9 @@ NotificationWorker.doWork()
 
 [После ребута устройства]
 BootReceiver.onReceive(BOOT_COMPLETED)
-   → scheduleDaily(ctx)   ← worker очередь сбрасывается ОС после ребута
+   → scheduleDaily(ctx)           ← утренний дайджест
+   → scheduleDeferPromotion(ctx)  ← перенос отложенных задач
+   (очередь одноразовых worker'ов сбрасывается ОС после ребута)
 ```
 
 ---
@@ -280,7 +303,7 @@ KotaTask использует **`activityViewModels()` повсеместно** 
 - Изменение в одном фрагменте (например, "В сегодня") моментально отражается во всех остальных.
 - При `MainActivity.recreate()` (смена темы) — ViewModel переживает recreate, БД не перечитывается.
 
-Минус: ViewModel разрастается — сейчас ≈ 400 строк, держит CRUD для 4 сущностей, сортировки,
+Минус: ViewModel разрастается — сейчас 451 строка, держит CRUD для 4 сущностей, сортировки,
 фильтры, prefs-обёртки. Это сознательный размен на простоту против декомпозиции в DI.
 
 ---
