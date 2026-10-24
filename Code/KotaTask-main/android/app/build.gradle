@@ -4,10 +4,26 @@ plugins {
     id 'com.google.devtools.ksp'
 }
 
-def releaseStoreFile = project.findProperty("RELEASE_STORE_FILE") ?: System.getenv("RELEASE_STORE_FILE")
-def releaseStorePassword = project.findProperty("RELEASE_STORE_PASSWORD") ?: System.getenv("RELEASE_STORE_PASSWORD")
-def releaseKeyAlias = project.findProperty("RELEASE_KEY_ALIAS") ?: System.getenv("RELEASE_KEY_ALIAS")
-def releaseKeyPassword = project.findProperty("RELEASE_KEY_PASSWORD") ?: System.getenv("RELEASE_KEY_PASSWORD")
+// ── Подпись релиза ──────────────────────────────────────────────────────────
+// Источники значений, в порядке приоритета:
+//   1) android/keystore.properties — локальный файл, лежит в .gitignore
+//   2) -P свойства в командной строке Gradle
+//   3) переменные окружения
+def keystorePropsFile = rootProject.file("keystore.properties")
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystorePropsFile.withInputStream { keystoreProps.load(it) }
+}
+
+def signingValue = { String key ->
+    def v = keystoreProps.getProperty(key) ?: project.findProperty(key) ?: System.getenv(key)
+    return (v != null && !v.toString().trim().isEmpty()) ? v.toString().trim() : null
+}
+
+def releaseStoreFile = signingValue("RELEASE_STORE_FILE")
+def releaseStorePassword = signingValue("RELEASE_STORE_PASSWORD")
+def releaseKeyAlias = signingValue("RELEASE_KEY_ALIAS")
+def releaseKeyPassword = signingValue("RELEASE_KEY_PASSWORD")
 def hasReleaseSigning = releaseStoreFile && releaseStorePassword && releaseKeyAlias && releaseKeyPassword
 
 android {
@@ -15,7 +31,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.mark.app"
+        applicationId "ru.kotadevelopment.kotatask"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -29,6 +45,10 @@ android {
                 storePassword releaseStorePassword
                 keyAlias releaseKeyAlias
                 keyPassword releaseKeyPassword
+                // v1 (JAR signing) не включаем: он нужен только для Android < 7.0,
+                // а minSdk здесь 26. AGP всё равно его пропускает при minSdk >= 24.
+                enableV2Signing = true
+                enableV3Signing = true
             }
         }
     }
@@ -38,6 +58,8 @@ android {
             if (hasReleaseSigning) {
                 signingConfig signingConfigs.release
             }
+            // Явно, чтобы флаг нельзя было потерять при будущих правках.
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -54,14 +76,34 @@ android {
     }
 }
 
+// ── Защита от выпуска неподписанного релиза ─────────────────────────────────
+// Без этого assembleRelease молча отдаёт app-release-unsigned.apk, который
+// невозможно ни установить, ни опубликовать.
+gradle.taskGraph.whenReady { graph ->
+    def wantsRelease = graph.allTasks.any { t ->
+        (t.name.startsWith('assemble') || t.name.startsWith('bundle')) && t.name.contains('Release')
+    }
+    if (wantsRelease && !hasReleaseSigning) {
+        throw new GradleException(
+            "Релизная сборка запрошена, но подпись не настроена.\n" +
+            "Заполните android/keystore.properties (шаблон: keystore.properties.example):\n" +
+            "  RELEASE_STORE_FILE, RELEASE_STORE_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD"
+        )
+    }
+}
+
 // ── Автоматически копирует APK в папку Builds/ после каждой сборки ──────────
+// Имя обязательно содержит buildType: раньше debug и release попадали в
+// Builds/ под неразличимыми именами, и debug-сборку легко было залить в стор.
 afterEvaluate {
     android.applicationVariants.all { variant ->
         variant.assembleProvider.get().doLast {
             def buildsDir = new File(rootProject.projectDir.parentFile.parentFile, "Builds")
             buildsDir.mkdirs()
             def timestamp = new Date().format("yyyyMMdd_HHmm")
-            def apkName = "KotaTask_${timestamp}.apk"
+            def version = android.defaultConfig.versionName
+            def type = variant.buildType.name
+            def apkName = "KotaTask_v${version}_${type}_${timestamp}.apk"
             variant.outputs.all { output ->
                 def src = output.outputFile
                 if (src.exists()) {

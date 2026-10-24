@@ -29,3 +29,4 @@ DerivedData/
 
 # Build artifacts: only the newest APKs are force-added
 Code/Builds/
+RuStore-publish/
