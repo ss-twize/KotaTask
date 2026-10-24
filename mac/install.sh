@@ -13,10 +13,12 @@ xcodebuild build \
   -scheme KotaTaskMac \
   -configuration Release \
   -destination 'platform=macOS' \
-  -derivedDataPath build/DerivedData \
+  -derivedDataPath build/DerivedData.noindex \
   -quiet
 
-APP="build/DerivedData/Build/Products/Release/KotaTask.app"
+# «.noindex» в имени — Spotlight и Launchpad не показывают промежуточные сборки рядом с установленной.
+APP="build/DerivedData.noindex/Build/Products/Release/KotaTask.app"
+LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
 DEST="$HOME/Applications"
 mkdir -p "$DEST"
 # Закрываем запущенную копию, чтобы заменить бандл; данные при этом сохраняются.
@@ -28,6 +30,8 @@ for _ in $(seq 1 50); do
 done
 rm -rf "$DEST/KotaTask.app"
 cp -R "$APP" "$DEST/"
+# Регистрируем только установленную копию: в «Открыть с помощью» и Launchpad будет одна KotaTask.
+"$LSREGISTER" -u "$PWD/$APP" >/dev/null 2>&1 || true
 echo "✅ Установлено: $DEST/KotaTask.app"
 echo "   Данные: ~/Library/Application Support/KotaTask/"
 

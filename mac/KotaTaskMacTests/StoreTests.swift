@@ -88,6 +88,17 @@ struct StoreTests {
         #expect(store.task(id: t.id)?.status == .archive)
     }
 
+    @Test func debugBuildNeverUsesRealDataFolder() {
+        let support = URL(filePath: "/Users/me/Library/Application Support", directoryHint: .isDirectory)
+        let demo = ["KOTATASK_DATA_DIR": "/tmp/demo"]
+        #expect(Persistence.dataDirectory(environment: [:], isDebug: false, applicationSupport: support).lastPathComponent == "KotaTask")
+        #expect(Persistence.dataDirectory(environment: demo, isDebug: false, applicationSupport: support).lastPathComponent == "KotaTask",
+                "в Release переменная не действует")
+        #expect(Persistence.dataDirectory(environment: [:], isDebug: true, applicationSupport: support).lastPathComponent == "KotaTask Debug",
+                "Debug, запущенная из Finder или Spotlight, не трогает настоящие данные")
+        #expect(Persistence.dataDirectory(environment: demo, isDebug: true, applicationSupport: support).path() == "/tmp/demo/")
+    }
+
     @Test func persistsAndReloads() throws {
         let dir = temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: dir) }

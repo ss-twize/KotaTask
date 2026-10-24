@@ -23,7 +23,9 @@ xcodebuild test -project KotaTaskMac.xcodeproj -scheme KotaTaskMac -destination 
 Отладка на демо-данных, не трогая настоящие (только Debug-сборка): переменная `KOTATASK_DATA_DIR`
 указывает отдельную папку данных, настройки тогда берутся из домена `KotaTask.Sandbox`.
 Debug-сборка — отдельное приложение «KotaTask Debug» (`ru.kotadevelopment.kotatask.mac.debug`):
-со своими настройками и уведомлениями, она не путается с установленной копией.
+со своими настройками и уведомлениями, она не путается с установленной копией. Настоящие данные она не
+открывает никогда: без `KOTATASK_DATA_DIR` её папка — `~/Library/Application Support/KotaTask Debug`.
+Сборки лежат в `build/DerivedData.noindex` — «.noindex» прячет их от Spotlight и Launchpad.
 
 ## Доска и подзадачи
 

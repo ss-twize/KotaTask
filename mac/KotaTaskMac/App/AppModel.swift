@@ -63,12 +63,11 @@ final class AppModel {
     /// Под тестами хостовое приложение не должно трогать настоящие данные и уведомления.
     static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
-    /// Папка данных для отладки из переменной `KOTATASK_DATA_DIR` (только Debug-сборка).
-    static var debugSandboxDirectory: URL? {
+    static var isDebugBuild: Bool {
         #if DEBUG
-        ProcessInfo.processInfo.environment["KOTATASK_DATA_DIR"].map { URL(filePath: $0, directoryHint: .isDirectory) }
+        true
         #else
-        nil
+        false
         #endif
     }
 
@@ -96,13 +95,15 @@ final class AppModel {
         if Self.isRunningTests {
             store = TaskStore(persistence: nil)
             settings = AppSettings(defaults: UserDefaults(suiteName: "KotaTask.TestHost") ?? .standard)
-        } else if let sandbox = Self.debugSandboxDirectory {
-            // Отладка: отдельная папка данных и отдельные настройки, настоящие не трогаем.
-            store = TaskStore(persistence: Persistence(directory: sandbox))
-            settings = AppSettings(defaults: UserDefaults(suiteName: "KotaTask.Sandbox") ?? .standard)
         } else {
-            store = TaskStore(persistence: .standard())
-            settings = AppSettings()
+            // Debug-сборка всегда со своей папкой данных (см. Persistence.dataDirectory), а настройки
+            // у неё и так свои — отдельный bundle id. Демо-данные из KOTATASK_DATA_DIR — с отдельными настройками.
+            let environment = ProcessInfo.processInfo.environment
+            let directory = Persistence.dataDirectory(environment: environment, isDebug: Self.isDebugBuild)
+            store = TaskStore(persistence: Persistence(directory: directory))
+            settings = Self.isDebugBuild && environment["KOTATASK_DATA_DIR"] != nil
+                ? AppSettings(defaults: UserDefaults(suiteName: "KotaTask.Sandbox") ?? .standard)
+                : AppSettings()
         }
     }
 

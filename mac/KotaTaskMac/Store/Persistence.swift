@@ -73,9 +73,22 @@ struct Persistence: Sendable {
 
     /// `~/Library/Application Support/KotaTask/`
     static func standard() -> Persistence {
-        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+        Persistence(directory: dataDirectory(environment: [:], isDebug: false))
+    }
+
+    /// Папка данных. Release — «KotaTask». Debug никогда не берёт настоящие данные: папка из
+    /// `KOTATASK_DATA_DIR` (демо-данные) или «KotaTask Debug» — даже если сборку открыли из Finder или Spotlight.
+    static func dataDirectory(environment: [String: String], isDebug: Bool,
+                              applicationSupport: URL = applicationSupportDirectory) -> URL {
+        if isDebug, let custom = environment["KOTATASK_DATA_DIR"] {
+            return URL(filePath: custom, directoryHint: .isDirectory)
+        }
+        return applicationSupport.appending(path: isDebug ? "KotaTask Debug" : "KotaTask", directoryHint: .isDirectory)
+    }
+
+    static var applicationSupportDirectory: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? URL(filePath: NSHomeDirectory()).appending(path: "Library/Application Support")
-        return Persistence(directory: base.appending(path: "KotaTask", directoryHint: .isDirectory))
     }
 
     enum LoadResult: Equatable {
