@@ -1,77 +1,53 @@
 import SwiftUI
-import SwiftData
 
+/// «План на сегодня»: hero нагрузки и задачи со статусом «Сегодня».
 struct TodayView: View {
-    @Query(
-        filter: #Predicate<AppTask> {
-            !$0.isArchived &&
-            $0.statusRaw != "done" &&
-            $0.statusRaw != "cancelled"
-        },
-        sort: \AppTask.priority,
-        order: .reverse
-    )
-    private var allActiveTasks: [AppTask]
-
-    @Query private var settingsList: [AppSettings]
-    @State private var selectedTask: AppTask? = nil
-
-    private var settings: AppSettings? { settingsList.first }
-    private var limit: Int { settings?.dailyTaskLimit ?? 5 }
-    private var displayedTasks: [AppTask] { Array(allActiveTasks.prefix(limit)) }
-    private var hiddenCount: Int { max(0, allActiveTasks.count - limit) }
+    @Environment(AppModel.self) private var model
+    @State private var sort: SortMode?
 
     var body: some View {
-        HSplitView {
-            VStack(alignment: .leading, spacing: 0) {
-                if hiddenCount > 0 {
-                    HStack {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundColor(.orange)
-                        Text("Скрыто ещё \(hiddenCount) задач — дневной лимит \(limit)")
-                            .font(.caption)
-                            .foregroundColor(.orange)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(Color.orange.opacity(0.1))
-                }
+        let settings = model.settings
+        let mode = sort ?? settings.defaultSortMode
+        let todayTasks = TaskQueries.tasks(model.store.tasks, status: .today)
+        let sorted = TaskQueries.sort(todayTasks, by: mode, context: model.sortContext)
+        let load = settings.dayLoad(minutes: TaskTree.todayLoadMinutes(model.store.tasks), count: todayTasks.count)
 
-                if displayedTasks.isEmpty {
-                    emptyState
-                } else {
-                    List(displayedTasks, selection: $selectedTask) { task in
-                        TaskRowView(task: task)
-                            .tag(task)
-                    }
-                    .listStyle(.inset)
-                }
+        ScreenScroll {
+            ScreenHeader(title: "План на сегодня", subtitle: "Сфокусируйся на главном") {
+                SortMenu(selection: Binding(get: { mode }, set: { sort = $0 }))
             }
-            .frame(minWidth: 300)
-
-            Group {
-                if let task = selectedTask {
-                    TaskDetailView(task: task)
-                } else {
-                    NoSelectionView()
-                }
+            DayLoadHero(load: load)
+            if sorted.isEmpty {
+                EmptyState(
+                    symbol: "sun.max",
+                    title: "Свободный день",
+                    subtitle: "Добавь задачу из стека или создай новую"
+                )
+            } else {
+                ConnectedTaskGrid(tasks: sorted, mode: .today)
             }
-            .frame(minWidth: 220, maxWidth: 280)
         }
         .navigationTitle("Сегодня")
+        .animation(Motion.standard, value: sorted.isEmpty)
     }
+}
 
-    private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "star.circle")
-                .font(.system(size: 48))
-                .foregroundColor(.secondary)
-            Text("Нет задач на сегодня")
-                .foregroundColor(.secondary)
-            Text("Нажми + чтобы добавить первую задачу")
-                .font(.caption)
-                .foregroundColor(.secondary)
+/// Выбор сортировки — капсула с меню из семи режимов.
+struct SortMenu: View {
+    @Binding var selection: SortMode
+
+    var body: some View {
+        CapsuleMenu(title: selection.title, symbol: "arrow.up.arrow.down") {
+            Picker("Сортировка", selection: Binding(
+                get: { selection },
+                set: { newValue in withAnimation(Motion.standard) { selection = newValue } }
+            )) {
+                ForEach(SortMode.allCases) { mode in
+                    Label(mode.title, systemImage: mode.symbol).tag(mode)
+                }
+            }
+            .pickerStyle(.inline)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .help("Сортировка")
     }
 }

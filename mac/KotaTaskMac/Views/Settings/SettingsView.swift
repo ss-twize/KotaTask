@@ -1,170 +1,230 @@
 import SwiftUI
-import SwiftData
 
+/// Окно «Настройки» (⌘,): дублирует онбординг и добавляет алгоритм, контакты и данные.
 struct SettingsView: View {
-    @Query private var settingsList: [AppSettings]
-    @Environment(\.modelContext) private var context
-    @Query private var tasks: [AppTask]
-
-    private var settings: AppSettings {
-        if let s = settingsList.first { return s }
-        let s = AppSettings()
-        context.insert(s)
-        return s
+    var body: some View {
+        TabView {
+            GeneralSettingsTab()
+                .tabItem { Label("Основные", systemImage: "gearshape") }
+            FeaturesSettingsTab()
+                .tabItem { Label("Функции", systemImage: "switch.2") }
+            CreationSettingsTab()
+                .tabItem { Label("Создание задач", systemImage: "square.and.pencil") }
+            AlgorithmSettingsTab()
+                .tabItem { Label("Алгоритм", systemImage: "wand.and.stars") }
+            AboutSettingsTab()
+                .tabItem { Label("О приложении", systemImage: "info.circle") }
+        }
+        .frame(width: 600)
+        .tint(Palette.accent)
     }
+}
 
-    @State private var showSavedBanner = false
+private struct GeneralSettingsTab: View {
+    var body: some View {
+        Form {
+            Section("Оформление") {
+                ThemePicker()
+            }
+            Section("Календарь") {
+                CalendarModeChoices()
+            }
+            Section("Уведомления") {
+                NotificationSettingsRows()
+            }
+        }
+        .formStyle(.grouped)
+        .frame(height: 520)
+    }
+}
+
+private struct FeaturesSettingsTab: View {
+    var body: some View {
+        Form {
+            Section {
+                FeatureToggles()
+            } header: {
+                Text("Включённые возможности")
+            }
+            Section {
+                FieldVisibilityToggles()
+            } header: {
+                Text("Видимые поля задачи")
+            }
+        }
+        .formStyle(.grouped)
+        .frame(height: 620)
+    }
+}
+
+private struct CreationSettingsTab: View {
+    @Environment(AppModel.self) private var model
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                if showSavedBanner {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
-                        Text("Настройки сохранены")
-                    }
-                    .padding(10)
-                    .background(Color.green.opacity(0.15))
-                    .cornerRadius(8)
-                    .transition(.opacity)
-                }
-
-                weightsSection
-                dailyLimitSection
-                notificationsSection
+        Form {
+            Section {
+                AssistanceChoices()
+            } header: {
+                Text("Уровень помощи")
+            } footer: {
+                Text("Сколько полей обязательно при создании задачи.")
+                    .foregroundStyle(Palette.textTertiary)
             }
-            .padding()
-        }
-        .navigationTitle("Настройки")
-    }
-
-    private var weightsSection: some View {
-        GroupBox("Веса алгоритма приоритета") {
-            VStack(spacing: 16) {
-                Text("Сумма весов: \(String(format: "%.0f%%", (settings.weightUrgency + settings.weightImportance + settings.weightEffort + settings.weightDeadline) * 100))")
-                    .font(.caption)
-                    .foregroundColor(weightsValid ? .secondary : .red)
-
-                weightSlider("Срочность",   value: Binding(
-                    get: { settings.weightUrgency },
-                    set: { settings.weightUrgency = $0; recalcAll() }
-                ))
-                weightSlider("Важность",    value: Binding(
-                    get: { settings.weightImportance },
-                    set: { settings.weightImportance = $0; recalcAll() }
-                ))
-                weightSlider("Усилия",      value: Binding(
-                    get: { settings.weightEffort },
-                    set: { settings.weightEffort = $0; recalcAll() }
-                ))
-                weightSlider("Дедлайн",     value: Binding(
-                    get: { settings.weightDeadline },
-                    set: { settings.weightDeadline = $0; recalcAll() }
-                ))
-
-                Button("Сбросить к стандартным") {
-                    settings.weightUrgency = 0.35
-                    settings.weightImportance = 0.30
-                    settings.weightEffort = 0.20
-                    settings.weightDeadline = 0.15
-                    recalcAll()
-                    showSaved()
-                }
-                .buttonStyle(.bordered)
+            Section {
+                RequiredFieldsEditor()
+                    .disabled(model.settings.assistanceLevel != .custom)
+                    .opacity(model.settings.assistanceLevel == .custom ? 1 : 0.45)
+            } header: {
+                Text("Обязательные поля уровня «Свой»")
+            } footer: {
+                Text(model.settings.assistanceLevel == .custom
+                     ? "Скрытые в форме поля недоступны."
+                     : "Выберите уровень «Свой», чтобы настроить поля вручную.")
+                    .foregroundStyle(Palette.textTertiary)
             }
-            .padding()
         }
+        .formStyle(.grouped)
+        .frame(height: 560)
+        .animation(Motion.standard, value: model.settings.assistanceLevel)
     }
+}
 
-    private var dailyLimitSection: some View {
-        GroupBox("Дневной лимит задач") {
+private struct AlgorithmSettingsTab: View {
+    @Environment(AppModel.self) private var model
+    @State private var draft = CoefficientDraft.defaults
+    @State private var loaded = false
+    @State private var savedFlash = false
+
+    var body: some View {
+        let stored = CoefficientDraft(settings: model.settings)
+        Form {
+            Section {
+                CoefficientSliders(draft: $draft)
+            } header: {
+                Text("Алгоритм приоритета")
+            } footer: {
+                if !model.settings.smartSort {
+                    Text("Умная сортировка выключена — веса применятся, когда вы её включите.")
+                        .foregroundStyle(Palette.textTertiary)
+                }
+            }
+            Section("Загруженность") {
+                LoadSliders(draft: $draft)
+            }
+        }
+        .formStyle(.grouped)
+        .safeAreaInset(edge: .bottom) {
             HStack {
-                Text("Показывать в «Сегодня»")
+                if savedFlash {
+                    Label("Настройки сохранены", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(Palette.success)
+                        .transition(.opacity.combined(with: .move(edge: .leading)))
+                } else if draft != stored {
+                    Text("Есть несохранённые изменения")
+                        .foregroundStyle(Palette.textTertiary)
+                        .transition(.opacity)
+                }
                 Spacer()
-                Stepper("\(settings.dailyTaskLimit)", value: Binding(
-                    get: { settings.dailyTaskLimit },
-                    set: { settings.dailyTaskLimit = $0; showSaved() }
-                ), in: 1...20)
-            }
-            .padding()
-        }
-    }
-
-    private var notificationsSection: some View {
-        GroupBox("Уведомления") {
-            VStack(alignment: .leading, spacing: 12) {
-                Toggle("Включить ежедневное уведомление", isOn: Binding(
-                    get: { settings.notificationsEnabled },
-                    set: { v in
-                        settings.notificationsEnabled = v
-                        if v { NotificationManager.shared.requestPermission() }
-                        NotificationManager.shared.reschedule(settings: settings)
-                        showSaved()
-                    }
-                ))
-
-                if settings.notificationsEnabled {
-                    HStack {
-                        Text("Время")
-                        Spacer()
-                        Picker("", selection: Binding(
-                            get: { settings.notificationHour },
-                            set: { settings.notificationHour = $0; NotificationManager.shared.reschedule(settings: settings); showSaved() }
-                        )) {
-                            ForEach(0..<24, id: \.self) { h in
-                                Text(String(format: "%02d", h)).tag(h)
-                            }
-                        }
-                        .frame(width: 60)
-                        Text(":")
-                        Picker("", selection: Binding(
-                            get: { settings.notificationMinute },
-                            set: { settings.notificationMinute = $0; NotificationManager.shared.reschedule(settings: settings); showSaved() }
-                        )) {
-                            ForEach([0, 15, 30, 45], id: \.self) { m in
-                                Text(String(format: "%02d", m)).tag(m)
-                            }
-                        }
-                        .frame(width: 60)
+                Button("По умолчанию") {
+                    withAnimation(Motion.standard) { draft = .defaults }
+                }
+                Button("Сохранить") {
+                    draft.apply(to: model.settings)
+                    model.rescheduleNotifications()
+                    withAnimation(Motion.bouncy) { savedFlash = true }
+                    Task {
+                        try? await Task.sleep(for: .seconds(2))
+                        withAnimation(Motion.standard) { savedFlash = false }
                     }
                 }
+                .keyboardShortcut(.defaultAction)
+                .buttonStyle(.borderedProminent)
+                .disabled(draft == stored)
             }
-            .padding()
+            .font(.system(size: 12))
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+            .background(.bar)
         }
-    }
-
-    @ViewBuilder
-    private func weightSlider(_ label: String, value: Binding<Double>) -> some View {
-        HStack {
-            Text(label).frame(width: 100, alignment: .leading)
-            Slider(value: value, in: 0.0...1.0, step: 0.05)
-            Text(String(format: "%.0f%%", value.wrappedValue * 100))
-                .frame(width: 40, alignment: .trailing)
-                .monospacedDigit()
+        .frame(height: 640)
+        .onAppear {
+            if !loaded {
+                draft = stored
+                loaded = true
+            }
+            // Контроль нагрузки переключается и на вкладке «Функции» — черновик не должен его откатить.
+            draft.overloadEnabled = model.settings.overloadControl
         }
+        .onChange(of: model.settings.overloadControl) { _, enabled in draft.overloadEnabled = enabled }
     }
+}
 
-    private var weightsValid: Bool {
-        let sum = settings.weightUrgency + settings.weightImportance +
-                  settings.weightEffort + settings.weightDeadline
-        return abs(sum - 1.0) < 0.01
-    }
+private struct AboutSettingsTab: View {
+    @Environment(AppModel.self) private var model
+    @State private var confirmOnboarding = false
 
-    private func recalcAll() {
-        let weights = PriorityWeights.from(settings: settings)
-        for task in tasks {
-            task.priority = PriorityCalculator.calculate(
-                urgency: task.urgency, importance: task.importance,
-                effort: task.effort, dueDate: task.dueDate, weights: weights
-            )
+    var body: some View {
+        Form {
+            Section {
+                HStack(spacing: 16) {
+                    Image(nsImage: NSApp.applicationIconImage)
+                        .resizable()
+                        .frame(width: 64, height: 64)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("KotaTask")
+                            .font(.system(size: 20, weight: .bold))
+                        Text("Свобода. Контроль. Свежесть.")
+                            .foregroundStyle(Palette.textTertiary)
+                        Text("Версия \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0") для macOS")
+                            .font(.system(size: 11.5))
+                            .foregroundStyle(Palette.textHint)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+            Section("Контакты") {
+                LabeledContent("Почта") {
+                    Button(AppModel.supportEmail) { model.openURL("mailto:\(AppModel.supportEmail)") }
+                        .buttonStyle(.link)
+                }
+                LabeledContent("Telegram") {
+                    Button("Открыть канал") { model.openURL(AppModel.telegramURL) }
+                        .buttonStyle(.link)
+                }
+                LabeledContent("Предложить изменения") {
+                    Button("Написать в Telegram") { model.openURL(AppModel.suggestURL) }
+                        .buttonStyle(.link)
+                }
+                Button {
+                    model.openURL(AppModel.donateURL)
+                } label: {
+                    Label("Поддержать проект", systemImage: "heart.fill")
+                }
+                .tint(Palette.carnation)
+            }
+            Section {
+                LabeledContent("Файл данных") {
+                    Button("Показать в Finder") {
+                        NSWorkspace.shared.activateFileViewerSelecting([model.store.dataFileURL ?? Persistence.standard().fileURL])
+                    }
+                }
+                LabeledContent("Начальная настройка") {
+                    Button("Пройти заново…") { confirmOnboarding = true }
+                }
+            } header: {
+                Text("Данные")
+            } footer: {
+                Text("Задачи хранятся только на этом Mac. Каждый день сохраняется копия — последние 7 лежат в папке Backups рядом с файлом.")
+                    .foregroundStyle(Palette.textTertiary)
+            }
         }
-        showSaved()
-    }
-
-    private func showSaved() {
-        withAnimation { showSavedBanner = true }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            withAnimation { showSavedBanner = false }
+        .formStyle(.grouped)
+        .frame(height: 520)
+        .confirmationDialog("Пройти начальную настройку заново?", isPresented: $confirmOnboarding, titleVisibility: .visible) {
+            Button("Начать") { model.settings.onboardingDone = false }
+            Button("Отмена", role: .cancel) {}
+        } message: {
+            Text("Задачи останутся на месте — изменятся только настройки, которые вы выберете.")
         }
     }
 }

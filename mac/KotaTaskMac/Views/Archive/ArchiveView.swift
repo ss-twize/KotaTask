@@ -1,77 +1,94 @@
 import SwiftUI
-import SwiftData
 
+/// Архив выполненных задач: по убыванию времени выполнения, режим выбора и массовое удаление.
 struct ArchiveView: View {
-    @Query(
-        filter: #Predicate<AppTask> { $0.isArchived },
-        sort: \AppTask.completedAt,
-        order: .reverse
-    )
-    private var archivedTasks: [AppTask]
-
-    @Environment(\.modelContext) private var context
-    @State private var selectedTask: AppTask? = nil
-    @State private var searchText = ""
-
-    private var filteredTasks: [AppTask] {
-        guard !searchText.isEmpty else { return archivedTasks }
-        return archivedTasks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
-    }
+    @Environment(AppModel.self) private var model
+    @State private var selecting = false
+    @State private var selected: Set<String> = []
+    @State private var confirmSelected = false
+    @State private var confirmAll = false
 
     var body: some View {
-        HSplitView {
-            VStack(spacing: 0) {
-                HStack {
-                    Image(systemName: "magnifyingglass").foregroundColor(.secondary)
-                    TextField("Поиск в архиве", text: $searchText).textFieldStyle(.plain)
-                }
-                .padding(8)
-                .background(Color(nsColor: .controlBackgroundColor))
+        let archived = TaskQueries.archive(model.store.tasks)
 
-                Divider()
-
-                if filteredTasks.isEmpty {
-                    VStack(spacing: 12) {
-                        Image(systemName: "archivebox")
-                            .font(.system(size: 48))
-                            .foregroundColor(.secondary)
-                        Text("Архив пуст")
-                            .foregroundColor(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    List(filteredTasks, selection: $selectedTask) { task in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(task.title)
-                                    .strikethrough(task.status == .done)
-                                if let completed = task.completedAt {
-                                    Text(completed, style: .date)
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
+        ScreenScroll {
+            ScreenHeader(title: "Архив", subtitle: "Что уже сделано") {
+                if !archived.isEmpty {
+                    HStack(spacing: 8) {
+                        if selecting {
+                            Button(selected.count == archived.count ? "Снять выбор" : "Выбрать все") {
+                                withAnimation(Motion.snappy) {
+                                    selected = selected.count == archived.count ? [] : Set(archived.map(\.id))
                                 }
                             }
-                            Spacer()
-                            Text(task.status.displayName)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                            .buttonStyle(.bordered)
+                            Button("Удалить выбранные", role: .destructive) { confirmSelected = true }
+                                .buttonStyle(.bordered)
+                                .disabled(selected.isEmpty)
+                        } else {
+                            Button("Очистить архив", role: .destructive) { confirmAll = true }
+                                .buttonStyle(.bordered)
                         }
-                        .tag(task)
+                        Button(selecting ? "Готово" : "Выбрать") {
+                            withAnimation(Motion.standard) {
+                                selecting.toggle()
+                                if !selecting { selected = [] }
+                            }
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .listStyle(.inset)
+                    .controlSize(.regular)
+                    .transition(.opacity)
                 }
             }
-            .frame(minWidth: 300)
 
-            Group {
-                if let task = selectedTask {
-                    TaskDetailView(task: task)
-                } else {
-                    NoSelectionView()
-                }
+            if archived.isEmpty {
+                EmptyState(symbol: "archivebox", title: "Архив пуст", subtitle: "Выполненные задачи появятся здесь")
+            } else {
+                TaskGrid(
+                    cards: model.cards(for: archived, showScore: false),
+                    mode: .archive,
+                    today: model.clock.today,
+                    selection: selecting ? selected : nil,
+                    onToggleSelection: { task in
+                        withAnimation(Motion.snappy) {
+                            if selected.contains(task.id) { selected.remove(task.id) } else { selected.insert(task.id) }
+                        }
+                    },
+                    onAction: { action, task in model.perform(action, on: task) }
+                )
             }
-            .frame(minWidth: 220, maxWidth: 280)
         }
-        .navigationTitle("Архив (\(archivedTasks.count))")
+        .navigationTitle("Архив")
+        .animation(Motion.standard, value: archived.isEmpty)
+        .confirmationDialog(
+            "Удалить выбранные?",
+            isPresented: $confirmSelected,
+            titleVisibility: .visible
+        ) {
+            Button("Удалить \(RuFormat.tasksCount(selected.count))", role: .destructive) {
+                withAnimation(Motion.standard) { model.store.delete(ids: selected) }
+                model.showToast("Удалено: \(RuFormat.tasksCount(selected.count))", symbol: "trash.fill", tint: Palette.error)
+                selected = []
+                selecting = false
+            }
+            Button("Отмена", role: .cancel) {}
+        } message: {
+            Text("Будет удалено \(RuFormat.tasksCount(selected.count)). Отменить можно через ⌘Z.")
+        }
+        .confirmationDialog(
+            "Удалить весь архив?",
+            isPresented: $confirmAll,
+            titleVisibility: .visible
+        ) {
+            Button("Удалить \(RuFormat.tasksCount(archived.count))", role: .destructive) {
+                let count = archived.count
+                withAnimation(Motion.standard) { model.store.clearArchive() }
+                model.showToast("Архив очищен: \(RuFormat.tasksCount(count))", symbol: "trash.fill", tint: Palette.error)
+            }
+            Button("Отмена", role: .cancel) {}
+        } message: {
+            Text("Будет удалено \(RuFormat.tasksCount(archived.count)). Отменить можно через ⌘Z.")
+        }
     }
 }

@@ -1,18 +1,24 @@
 name: KotaTaskMac
 options:
-  bundleIdPrefix: com.mark.kotatask
+  bundleIdPrefix: ru.kotadevelopment
+  developmentLanguage: ru
   deploymentTarget:
-    macOS: "14.0"
+    macOS: "26.0"
   createIntermediateGroups: true
 settings:
   base:
-    SWIFT_VERSION: "5.0"
+    SWIFT_VERSION: "6.0"
     MARKETING_VERSION: "1.0"
     CURRENT_PROJECT_VERSION: "1"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    # Локальный запуск: ad-hoc подпись («Sign to Run Locally»), без команды разработчика.
     CODE_SIGN_IDENTITY: "-"
     CODE_SIGN_STYLE: Manual
     DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: NO
     GENERATE_INFOPLIST_FILE: "YES"
+    SWIFT_EMIT_LOC_STRINGS: NO
+    LOCALIZATION_PREFERS_STRING_CATALOGS: NO
 targets:
   KotaTaskMac:
     type: application
@@ -21,10 +27,20 @@ targets:
       - path: KotaTaskMac
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mark.kotatask.mac
+        PRODUCT_NAME: KotaTask
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kotadevelopment.kotatask.mac
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         INFOPLIST_KEY_CFBundleDisplayName: KotaTask
         INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.productivity"
-        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        INFOPLIST_KEY_NSHumanReadableCopyright: "© 2026 KotaDevelopment"
+        INFOPLIST_KEY_CFBundleDevelopmentRegion: ru
+      configs:
+        # Отладочная сборка — отдельное приложение: не путается с установленной копией,
+        # у неё свои настройки и уведомления.
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: ru.kotadevelopment.kotatask.mac.debug
+          INFOPLIST_KEY_CFBundleDisplayName: KotaTask Debug
   KotaTaskMacTests:
     type: bundle.unit-test
     platform: macOS
@@ -34,7 +50,9 @@ targets:
       - target: KotaTaskMac
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mark.kotatask.mac.tests
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kotadevelopment.kotatask.mac.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KotaTask.app/Contents/MacOS/KotaTask"
+        BUNDLE_LOADER: "$(TEST_HOST)"
 schemes:
   KotaTaskMac:
     build:
@@ -45,6 +63,5 @@ schemes:
       config: Debug
     test:
       config: Debug
-      gatherCoverageData: true
       targets:
         - KotaTaskMacTests
