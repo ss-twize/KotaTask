@@ -138,6 +138,21 @@ extension TaskStore {
         }
     }
 
+    /// Скрывает колонку проекта с «Общего» или возвращает её. Задачи и лист проекта не трогаются.
+    func setProjectHidden(_ projectId: String, _ hidden: Bool) {
+        mutate(hidden ? "Скрытие колонки" : "Показ колонки") { s in
+            guard let i = s.projects.firstIndex(where: { $0.id == projectId }) else { return }
+            s.projects[i].hiddenOnBoard = hidden
+        }
+    }
+
+    /// Возвращает на «Общий» все скрытые колонки.
+    func showAllProjectColumns() {
+        mutate("Показ колонок") { s in
+            for i in s.projects.indices { s.projects[i].hiddenOnBoard = false }
+        }
+    }
+
     /// Бросок шапки колонки на шапку другой: правее исходного места — встаёт после цели, левее — перед ней.
     /// Иначе последней колонку было бы не сделать.
     func moveProjectColumn(_ projectId: String, onto targetId: String) {

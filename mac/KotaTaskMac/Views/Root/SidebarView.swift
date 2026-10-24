@@ -37,10 +37,15 @@ struct SidebarView: View {
             if settings.projectsEnabled {
                 Section {
                     Label("Общий", systemImage: "rectangle.split.3x1")
-                        .badge(BoardQueries.topLevel(in: .all, all: all).count)
+                        .badge(BoardQueries.columns(all: all, projects: model.store.categories(.project))
+                            .reduce(0) { $0 + $1.tasks.count })
                         .tag(SidebarItem.board)
                     ForEach(model.store.categories(.project)) { project in
-                        Label(project.name, systemImage: CategoryKind.project.symbol)
+                        // Скрытый с «Общего» проект — приглушён и с перечёркнутым глазом.
+                        Label(project.name, systemImage: project.hiddenOnBoard ? "eye.slash" : CategoryKind.project.symbol)
+                            // Иерархические стили, а не цвета палитры: в выделенной строке они становятся белыми.
+                            .foregroundStyle(project.hiddenOnBoard ? .secondary : .primary)
+                            .help(project.hiddenOnBoard ? "Колонка скрыта с «Общего»" : "")
                             .badge(BoardQueries.topLevel(in: .project(project.id), all: all).count)
                             .tag(SidebarItem.project(project.id))
                             .contextMenu { projectMenu(project) }
@@ -125,6 +130,8 @@ struct SidebarView: View {
 
     @ViewBuilder
     private func projectMenu(_ project: Category) -> some View {
+        ProjectVisibilityButton(project: project)
+        Divider()
         Button("Переименовать…", systemImage: "pencil") {
             model.categoryEdit = CategoryEdit(kind: .project, mode: .rename(project))
         }

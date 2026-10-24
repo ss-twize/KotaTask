@@ -36,13 +36,17 @@ struct BoardView: View {
                     : RuFormat.tasksCount(total)
             ) {
                 if projectsOn {
-                    Button {
-                        model.categoryEdit = CategoryEdit(kind: .project, mode: .create)
-                    } label: {
-                        Label("Проект", systemImage: "plus")
+                    HStack(spacing: 8) {
+                        HiddenColumnsMenu()
+                        Button {
+                            model.categoryEdit = CategoryEdit(kind: .project, mode: .create)
+                        } label: {
+                            Label("Проект", systemImage: "plus")
+                        }
+                        .buttonStyle(.bordered)
+                        .help("Новый проект — новая колонка")
                     }
-                    .buttonStyle(.bordered)
-                    .help("Новый проект — новая колонка")
+                    .animation(Motion.snappy, value: model.store.categories(.project).filter(\.hiddenOnBoard).count)
                 }
             }
 
@@ -172,6 +176,31 @@ struct BoardFilterBar: View {
                 Text("Без \(kind.filterLabel.lowercased())").tag(CategoryFilter.none)
             }
             .pickerStyle(.inline)
+        }
+    }
+}
+
+/// «Скрыто: N» — возвращает скрытые колонки на доску. Пока скрытых нет, не показывается.
+private struct HiddenColumnsMenu: View {
+    @Environment(AppModel.self) private var model
+
+    var body: some View {
+        let hidden = model.store.categories(.project).filter(\.hiddenOnBoard)
+        if !hidden.isEmpty {
+            Menu {
+                ForEach(hidden) { project in
+                    Button(project.name, systemImage: "eye") { model.setProjectHidden(project, false) }
+                }
+                Divider()
+                Button("Показать все", systemImage: "eye") { model.showAllProjectColumns() }
+            } label: {
+                Label("Скрыто: \(hidden.count)", systemImage: "eye.slash")
+            }
+            .menuStyle(.button)
+            .buttonStyle(.bordered)
+            .fixedSize()
+            .help("Скрытые колонки — вернуть на «Общий»")
+            .transition(.opacity.combined(with: .scale(scale: 0.9)))
         }
     }
 }

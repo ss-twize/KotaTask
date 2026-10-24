@@ -31,7 +31,7 @@ enum BoardQueries {
 
     /// «Без проекта», затем проекты по `sortIndex` и имени.
     static func columns(all: [TaskItem], projects: [Category]) -> [BoardColumn] {
-        let ordered = projects.sorted {
+        let ordered = projects.filter { !$0.hiddenOnBoard }.sorted {
             if $0.sortIndex != $1.sortIndex { return $0.sortIndex < $1.sortIndex }
             return $0.name.localizedStandardCompare($1.name) == .orderedAscending
         }

@@ -87,6 +87,7 @@ struct BoardColumnView: View {
             Menu {
                 Button("Новая задача", systemImage: "plus") { addRequested = true }
                 if case .project(let id) = column.scope, let project = model.store.category(.project, id: id) {
+                    Button("Скрыть с «Общего»", systemImage: "eye.slash") { model.setProjectHidden(project, true) }
                     Divider()
                     Button("Переименовать…", systemImage: "pencil") {
                         model.categoryEdit = CategoryEdit(kind: .project, mode: .rename(project))

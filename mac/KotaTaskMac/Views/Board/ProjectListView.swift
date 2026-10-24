@@ -14,6 +14,8 @@ struct ProjectListView: View {
             ScreenHeader(title: project?.name ?? "Проект", subtitle: "Проект · \(RuFormat.tasksCount(tasks.count))") {
                 if let project {
                     Menu {
+                        ProjectVisibilityButton(project: project)
+                        Divider()
                         Button("Переименовать…", systemImage: "pencil") {
                             model.categoryEdit = CategoryEdit(kind: .project, mode: .rename(project))
                         }
@@ -42,5 +44,19 @@ struct ProjectListView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Palette.canvas)
         .navigationTitle(project?.name ?? "Проект")
+    }
+}
+
+/// «Скрыть с «Общего»» / «Показать на «Общем»» — в меню листа проекта и в сайдбаре.
+struct ProjectVisibilityButton: View {
+    @Environment(AppModel.self) private var model
+    let project: Category
+
+    var body: some View {
+        if project.hiddenOnBoard {
+            Button("Показать на «Общем»", systemImage: "eye") { model.setProjectHidden(project, false) }
+        } else {
+            Button("Скрыть с «Общего»", systemImage: "eye.slash") { model.setProjectHidden(project, true) }
+        }
     }
 }

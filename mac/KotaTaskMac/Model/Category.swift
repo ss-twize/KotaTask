@@ -9,18 +9,22 @@ struct Category: Identifiable, Hashable, Sendable {
     var updated: Date
     /// Порядок колонок на доске «Общий» (используется у проектов).
     var sortIndex: Double
+    /// Колонка проекта скрыта с «Общего»; лист проекта и его задачи остаются на месте.
+    var hiddenOnBoard: Bool
 
-    init(id: String = UUID().uuidString.lowercased(), name: String, created: Date = .now, updated: Date = .now, sortIndex: Double = 0) {
+    init(id: String = UUID().uuidString.lowercased(), name: String, created: Date = .now, updated: Date = .now,
+         sortIndex: Double = 0, hiddenOnBoard: Bool = false) {
         self.id = id
         self.name = name
         self.created = created
         self.updated = updated
         self.sortIndex = sortIndex
+        self.hiddenOnBoard = hiddenOnBoard
     }
 }
 
 extension Category: Codable {
-    private enum CodingKeys: String, CodingKey { case id, name, created, updated, sortIndex }
+    private enum CodingKeys: String, CodingKey { case id, name, created, updated, sortIndex, hiddenOnBoard }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -29,6 +33,7 @@ extension Category: Codable {
         created = Date(milliseconds: try c.decodeIfPresent(Int64.self, forKey: .created) ?? Date.now.milliseconds)
         updated = Date(milliseconds: try c.decodeIfPresent(Int64.self, forKey: .updated) ?? Date.now.milliseconds)
         sortIndex = try c.decodeIfPresent(Double.self, forKey: .sortIndex) ?? 0
+        hiddenOnBoard = try c.decodeIfPresent(Bool.self, forKey: .hiddenOnBoard) ?? false
     }
 
     func encode(to encoder: Encoder) throws {
@@ -38,6 +43,8 @@ extension Category: Codable {
         try c.encode(created.milliseconds, forKey: .created)
         try c.encode(updated.milliseconds, forKey: .updated)
         try c.encode(sortIndex, forKey: .sortIndex)
+        // Пишем только у скрытых — обычные проекты в файле не меняются.
+        if hiddenOnBoard { try c.encode(true, forKey: .hiddenOnBoard) }
     }
 }
 

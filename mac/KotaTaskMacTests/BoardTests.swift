@@ -28,6 +28,15 @@ private func item(
 @Suite("Время родителя и подзадач")
 struct TaskTreeTests {
 
+    @Test func hiddenColumnFlagRoundTrips() throws {
+        var project = KotaTask.Category(id: "p", name: "P")
+        project.hiddenOnBoard = true
+        let back = try JSONDecoder().decode(KotaTask.Category.self, from: JSONEncoder().encode(project))
+        #expect(back.hiddenOnBoard)
+        let legacy = try JSONDecoder().decode(KotaTask.Category.self, from: Data(#"{"id":"x","name":"X"}"#.utf8))
+        #expect(!legacy.hiddenOnBoard, "старые файлы — все колонки видны")
+    }
+
     @Test func legacyJSONDecodes() throws {
         let withDuration = #"{"id":"a","title":"A","duration":45,"status":"Стек","created":1792000000000}"#
         let old = try JSONDecoder().decode(TaskItem.self, from: Data(withDuration.utf8))
@@ -151,6 +160,14 @@ struct TaskTreeTests {
 
 @Suite("Ручной порядок и колонки")
 struct ManualOrderTests {
+    @Test func hiddenProjectsLeaveTheBoard() {
+        var hidden = KotaTask.Category(id: "B", name: "B", sortIndex: 1)
+        hidden.hiddenOnBoard = true
+        let projects = [KotaTask.Category(id: "A", name: "A", sortIndex: 0), hidden]
+        let columns = BoardQueries.columns(all: [item("a", project: "A"), item("b", project: "B")], projects: projects)
+        #expect(columns.map(\.title) == [BoardQueries.noProjectTitle, "A"], "«Без проекта» остаётся всегда")
+    }
+
     let context = SortContext(
         coefficients: .defaults,
         load: LoadContext(dayLoadMinutes: 0, overloadLimitMinutes: 180, loadDurationBoost: 0.2),
@@ -250,6 +267,21 @@ struct BoardStoreTests {
     }
 
     // MARK: Финальное ревью
+
+    @Test func hidingProjectColumnIsUndoable() {
+        let store = boardStore([item("a", project: "A")], projects: ab)
+        let undo = UndoManager()
+        undo.groupsByEvent = false
+        store.undoManager = undo
+        undo.beginUndoGrouping()
+        store.setProjectHidden("A", true)
+        undo.endUndoGrouping()
+        #expect(store.category(.project, id: "A")?.hiddenOnBoard == true)
+        #expect(store.task(id: "a")?.projectId == "A", "задачи остаются в проекте")
+        #expect(undo.undoActionName == "Скрытие колонки")
+        undo.undo()
+        #expect(store.category(.project, id: "A")?.hiddenOnBoard == false)
+    }
 
     @Test func formTaskGoesToEndOfColumn() {
         let store = boardStore([item("a", project: "A", sortIndex: -2), item("b", project: "A", sortIndex: -1),

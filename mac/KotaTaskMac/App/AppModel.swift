@@ -368,6 +368,18 @@ final class AppModel {
         rescheduleNotifications()
     }
 
+    /// Скрывает колонку проекта с «Общего» или возвращает её.
+    func setProjectHidden(_ project: Category, _ hidden: Bool) {
+        withAnimation(Motion.standard) { store.setProjectHidden(project.id, hidden) }
+        showToast(hidden ? "Колонка «\(project.name)» скрыта с «Общего»" : "Колонка «\(project.name)» снова на «Общем»",
+                  symbol: hidden ? "eye.slash" : "eye", tint: Palette.accent)
+    }
+
+    func showAllProjectColumns() {
+        withAnimation(Motion.standard) { store.showAllProjectColumns() }
+        showToast("Все колонки снова на «Общем»", symbol: "eye", tint: Palette.accent)
+    }
+
     func deleteCategory(_ kind: CategoryKind, _ category: Category) {
         withAnimation(Motion.standard) { store.deleteCategory(kind, id: category.id) }
         if selection == .category(kind, category.id) {
