@@ -30,3 +30,6 @@ DerivedData/
 # Build artifacts: only the newest APKs are force-added
 Code/Builds/
 RuStore-publish/
+
+# Generated promo video (renders, third-party music)
+brag-output/
