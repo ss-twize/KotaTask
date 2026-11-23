@@ -23,6 +23,13 @@ DerivedData/
 # Signing keys — never commit
 *.jks
 *.keystore
+*.p12
+*.pfx
+keystore.properties
+.env
+.env.*
+!.env.example
+credentials.json
 
 # Tooling scratch
 .superpowers/

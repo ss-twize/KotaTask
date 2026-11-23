@@ -127,6 +127,9 @@ struct TaskCardView: View {
 
     private var chipsRow: some View {
         FlowLayout(spacing: 6, lineSpacing: 6) {
+            if task.needsDetails {
+                Chip(text: "Дополнить", symbol: "square.and.pencil", foreground: Palette.onWarning, background: Palette.warningSoft)
+            }
             ImportanceLabel(importance: task.importance)
                 .padding(.trailing, 2)
             if let deadline = task.deadline {

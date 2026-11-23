@@ -29,6 +29,8 @@ struct TaskItem: Identifiable, Hashable, Sendable {
     var parentId: String?
     /// Ручной порядок: в колонке проекта для задачи верхнего уровня, внутри родителя — для подзадачи.
     var sortIndex: Double
+    /// Задача записана на бегу и ещё не прошла полную форму.
+    var needsDetails: Bool
 
     init(
         id: String = UUID().uuidString.lowercased(),
@@ -46,7 +48,8 @@ struct TaskItem: Identifiable, Hashable, Sendable {
         taskTypeId: String? = nil,
         deferredDate: Day? = nil,
         parentId: String? = nil,
-        sortIndex: Double = 0
+        sortIndex: Double = 0,
+        needsDetails: Bool = false
     ) {
         self.id = id
         self.title = title
@@ -64,6 +67,7 @@ struct TaskItem: Identifiable, Hashable, Sendable {
         self.deferredDate = deferredDate
         self.parentId = parentId
         self.sortIndex = sortIndex
+        self.needsDetails = needsDetails
     }
 
     var isActive: Bool { status.isActive }
@@ -99,7 +103,7 @@ extension TaskItem: Codable {
     private enum CodingKeys: String, CodingKey {
         case id, title, deadline, deadlineStart, purpose, duration, importance, status
         case created, completed, projectId, locationId, taskTypeId, deferredDate
-        case parentId, sortIndex
+        case parentId, sortIndex, needsDetails
     }
 
     init(from decoder: Decoder) throws {
@@ -123,6 +127,7 @@ extension TaskItem: Codable {
         deferredDate = Day(iso: try c.decodeIfPresent(String.self, forKey: .deferredDate) ?? "")
         parentId = try c.decodeIfPresent(String.self, forKey: .parentId)?.nilIfEmpty
         sortIndex = try c.decodeIfPresent(Double.self, forKey: .sortIndex) ?? 0
+        needsDetails = try c.decodeIfPresent(Bool.self, forKey: .needsDetails) ?? false
     }
 
     func encode(to encoder: Encoder) throws {
@@ -143,6 +148,7 @@ extension TaskItem: Codable {
         try c.encode(deferredDate?.iso ?? "", forKey: .deferredDate)
         try c.encode(parentId ?? "", forKey: .parentId)
         try c.encode(sortIndex, forKey: .sortIndex)
+        if needsDetails { try c.encode(true, forKey: .needsDetails) }
     }
 }
 

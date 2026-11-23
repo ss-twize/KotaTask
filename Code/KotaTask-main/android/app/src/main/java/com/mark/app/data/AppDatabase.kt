@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         Location::class,
         TaskType::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -99,6 +99,25 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE tasks ADD COLUMN needsDetails INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE tasks ADD COLUMN sortIndex REAL NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE projects ADD COLUMN sortIndex REAL NOT NULL DEFAULT 0")
+                // ISO-даты и существующие поля не меняются. Начальный порядок — новые сверху.
+                db.execSQL("""UPDATE tasks SET sortIndex = (
+                    SELECT COUNT(*) FROM tasks AS other
+                    WHERE other.projectId IS tasks.projectId AND
+                    (other.created > tasks.created OR (other.created = tasks.created AND other.id < tasks.id))
+                )""")
+                db.execSQL("""UPDATE projects SET sortIndex = (
+                    SELECT COUNT(*) FROM projects AS other
+                    WHERE other.name < projects.name COLLATE NOCASE OR
+                    (other.name = projects.name COLLATE NOCASE AND other.id < projects.id)
+                )""")
+            }
+        }
+
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 // Намеренно НЕ используем fallbackToDestructiveMigration:
@@ -113,7 +132,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // При первом открытии существующей WAL-базы Room автоматически переключит
                 // режим и сбросит текущий WAL в основной файл.
                 Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "mark_db")
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                     .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                     .build()
                     .also { INSTANCE = it }

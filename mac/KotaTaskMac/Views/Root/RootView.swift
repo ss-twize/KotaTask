@@ -56,6 +56,14 @@ struct RootView: View {
         } detail: {
             DetailView(selection: model.selection)
                 .toolbar {
+                    ToolbarItem {
+                        Button {
+                            model.showsTaskExport = true
+                        } label: {
+                            Label("Экспорт", systemImage: "square.and.arrow.up")
+                        }
+                        .help("Весь стек и задачи на сегодня — текстом для чата или нейросети")
+                    }
                     ToolbarItem(placement: .primaryAction) {
                         Button {
                             model.presentNewTask()
@@ -70,6 +78,9 @@ struct RootView: View {
         .overlay(alignment: .bottom) { ToastHost() }
         .sheet(item: $model.formRequest) { request in
             TaskFormView(request: request)
+        }
+        .sheet(isPresented: $model.showsTaskExport) {
+            TaskExportView(text: TaskTextExport.render(model.store.snapshot))
         }
         .alert(
             "Удалить задачу?",

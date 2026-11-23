@@ -178,7 +178,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                     importance    = importance,
                     projectId     = projectId,
                     locationId    = locationId,
-                    taskTypeId    = taskTypeId
+                    taskTypeId    = taskTypeId,
+                    needsDetails  = false
                 )
             )
         }
@@ -186,6 +187,17 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getTaskById(id: String): Task? =
         allTasks.value?.firstOrNull { it.id == id }
+
+    fun placeOnBoard(id: String, projectId: String?, position: Int? = null, allProjects: Boolean = false) =
+        launchTracked("Не удалось переместить задачу") { repo.place(id, projectId, position, allProjects) }
+
+    fun moveProjectColumn(id: String, position: Int) =
+        launchTracked("Не удалось переставить проект") { projectRepo.move(id, position) }
+
+    fun quickCapture(title: String, projectId: String? = null) {
+        val task = com.mark.app.util.TaskCapture.create(title, projectId) ?: return
+        launchTracked("Не удалось сохранить задачу") { repo.insert(task) }
+    }
 
     fun completeTask(id: String) =
         launchTracked("Не удалось завершить задачу") { repo.archiveTask(id) }

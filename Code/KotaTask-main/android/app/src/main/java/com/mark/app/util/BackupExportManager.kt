@@ -8,6 +8,11 @@ import android.provider.MediaStore
 import com.mark.app.KotaTaskApp
 import com.mark.app.data.AppDatabase
 import com.mark.app.data.Task
+import com.mark.app.data.Project
+import com.mark.app.data.Location
+import com.mark.app.data.TaskType
+import androidx.room.withTransaction
+import androidx.annotation.RequiresApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -33,7 +38,7 @@ import java.io.OutputStreamWriter
 object BackupExportManager {
 
     private const val FILENAME = "kotatask_backup.json"
-    private const val FORMAT_VERSION = 2
+    private const val FORMAT_VERSION = 3
 
     // ─────────────────────────── EXPORT ───────────────────────────
 
@@ -48,7 +53,31 @@ object BackupExportManager {
             json.put("version",   FORMAT_VERSION)
             json.put("timestamp", System.currentTimeMillis())
             json.put("settings",  buildSettingsJson(context))
-            json.put("tasks",     buildTasksJson(db))
+            db.withTransaction {
+                json.put("tasks", buildTasksJson(db))
+                json.put("projects", JSONArray().apply {
+                    db.projectDao().getAllOnce().forEach { p ->
+                        put(JSONObject().apply {
+                            put("id", p.id); put("name", p.name); put("color", p.color)
+                            put("created", p.created); put("updated", p.updated); put("sortIndex", p.sortIndex)
+                        })
+                    }
+                })
+                json.put("locations", JSONArray().apply {
+                    db.locationDao().getAllOnce().forEach { p ->
+                        put(JSONObject().apply {
+                            put("id", p.id); put("name", p.name); put("created", p.created); put("updated", p.updated)
+                        })
+                    }
+                })
+                json.put("taskTypes", JSONArray().apply {
+                    db.taskTypeDao().getAllOnce().forEach { p ->
+                        put(JSONObject().apply {
+                            put("id", p.id); put("name", p.name); put("created", p.created); put("updated", p.updated)
+                        })
+                    }
+                })
+            }
             writeToDownloads(context, json.toString())
         } catch (_: Exception) { }
     }
@@ -98,11 +127,14 @@ object BackupExportManager {
                 put("locationId",   t.locationId ?: "")
                 put("taskTypeId",   t.taskTypeId ?: "")
                 put("deferredDate", t.deferredDate)
+                put("needsDetails", t.needsDetails)
+                put("sortIndex", t.sortIndex)
             })
         }
         return array
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun writeToDownloads(context: Context, content: String) {
         val resolver = context.contentResolver
         // Удаляем старый файл
@@ -206,6 +238,30 @@ object BackupExportManager {
         withContext(Dispatchers.IO) {
             try {
                 val array = backup.optJSONArray("tasks") ?: return@withContext
+                db.withTransaction {
+                backup.optJSONArray("projects")?.let { items ->
+                    for (i in 0 until items.length()) {
+                        val j = items.getJSONObject(i)
+                        db.projectDao().insert(Project(j.getString("id"), j.getString("name"),
+                            color = j.optString("color", "").ifEmpty { null },
+                            created = j.optLong("created"), updated = j.optLong("updated"),
+                            sortIndex = j.optDouble("sortIndex", i.toDouble())))
+                    }
+                }
+                backup.optJSONArray("locations")?.let { items ->
+                    for (i in 0 until items.length()) {
+                        val j = items.getJSONObject(i)
+                        db.locationDao().insert(Location(j.getString("id"), j.getString("name"),
+                            created = j.optLong("created"), updated = j.optLong("updated")))
+                    }
+                }
+                backup.optJSONArray("taskTypes")?.let { items ->
+                    for (i in 0 until items.length()) {
+                        val j = items.getJSONObject(i)
+                        db.taskTypeDao().insert(TaskType(j.getString("id"), j.getString("name"),
+                            created = j.optLong("created"), updated = j.optLong("updated")))
+                    }
+                }
                 for (i in 0 until array.length()) {
                     val j = array.getJSONObject(i)
                     db.taskDao().insert(Task(
@@ -224,8 +280,11 @@ object BackupExportManager {
                         projectId    = j.optString("projectId",  "").ifEmpty { null },
                         locationId   = j.optString("locationId", "").ifEmpty { null },
                         taskTypeId   = j.optString("taskTypeId", "").ifEmpty { null },
-                        deferredDate = j.optString("deferredDate",  "")
+                        deferredDate = j.optString("deferredDate",  ""),
+                        needsDetails = j.optBoolean("needsDetails", false),
+                        sortIndex = j.optDouble("sortIndex", i.toDouble())
                     ))
+                }
                 }
             } catch (_: Exception) { }
         }

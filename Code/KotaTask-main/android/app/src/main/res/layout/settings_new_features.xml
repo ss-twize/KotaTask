@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:layout_marginTop="16dp">
+    <TextView style="@style/Kt.Text.Overline"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="БЫСТРЫЙ ДОСТУП И ЭКСПОРТ" android:layout_marginBottom="8dp" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnCustomizeNavigation"
+        style="@style/Widget.KotaTask.Button.Outlined"
+        android:layout_width="match_parent" android:layout_height="52dp"
+        android:text="Настроить нижнее меню" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnOpenKanban"
+        style="@style/Widget.KotaTask.Button.Outlined"
+        android:layout_width="match_parent" android:layout_height="52dp"
+        android:text="Канбан по проектам" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnPinQuickWidget"
+        style="@style/Widget.KotaTask.Button.Outlined"
+        android:layout_width="match_parent" android:layout_height="52dp"
+        android:text="Виджет быстрого добавления 4×1" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnExportTasks"
+        style="@style/Widget.KotaTask.Button.Outlined"
+        android:layout_width="match_parent" android:layout_height="52dp"
+        android:text="Экспорт задач в чат / нейросеть" />
+</LinearLayout>

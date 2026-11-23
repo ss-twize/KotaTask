@@ -13,5 +13,6 @@ data class Project(
     val name: String,
     val color: String? = null,
     val created: Long = System.currentTimeMillis(),
-    val updated: Long = System.currentTimeMillis()
+    val updated: Long = System.currentTimeMillis(),
+    val sortIndex: Double = 0.0
 )

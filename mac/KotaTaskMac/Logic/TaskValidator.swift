@@ -111,6 +111,7 @@ struct ValidatedTask: Equatable, Sendable {
         task.projectId = projectId
         task.locationId = locationId
         task.taskTypeId = taskTypeId
+        task.needsDetails = false
     }
 }
 

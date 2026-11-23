@@ -42,6 +42,9 @@ struct AppCommands: Commands {
             Button("Новая задача") { model.presentNewTask() }
                 .keyboardShortcut("n")
                 .disabled(!model.settings.onboardingDone)
+            Button("Экспортировать задачи…") { model.showsTaskExport = true }
+                .keyboardShortcut("e", modifiers: [.command, .shift])
+                .disabled(!model.settings.onboardingDone)
         }
 
         CommandMenu("Переход") {

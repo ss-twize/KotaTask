@@ -6,8 +6,14 @@ import androidx.room.*
 @Dao
 interface ProjectDao {
 
-    @Query("SELECT * FROM projects ORDER BY name COLLATE NOCASE ASC")
+    @Query("SELECT * FROM projects ORDER BY sortIndex ASC, name COLLATE NOCASE ASC")
     fun getAll(): LiveData<List<Project>>
+
+    @Query("SELECT * FROM projects ORDER BY sortIndex ASC, name COLLATE NOCASE ASC")
+    suspend fun getAllOnce(): List<Project>
+
+    @Update
+    suspend fun updateAll(projects: List<Project>)
 
     @Query("SELECT * FROM projects WHERE id = :id")
     suspend fun getById(id: String): Project?

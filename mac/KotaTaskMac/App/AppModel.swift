@@ -79,6 +79,7 @@ final class AppModel {
 
     var selection: SidebarItem? = .today
     var formRequest: TaskFormRequest?
+    var showsTaskExport = false
     var toast: Toast?
     var categoryEdit: CategoryEdit?
     var categoryPendingDeletion: (kind: CategoryKind, category: Category)?

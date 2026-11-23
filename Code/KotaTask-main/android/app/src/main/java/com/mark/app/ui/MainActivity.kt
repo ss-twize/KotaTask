@@ -9,6 +9,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import android.widget.PopupMenu
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import com.mark.app.util.MainDestination
+import com.mark.app.util.NavigationConfig
+import com.mark.app.widget.QuickAddWidget
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +38,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val vm: TaskViewModel by viewModels()
+    private var currentDestination = MainDestination.TODAY
+    private var syncingNavigation = false
+    private val prefs get() = getSharedPreferences(KotaTaskApp.PREFS_NAME, Context.MODE_PRIVATE)
+
+    private fun availableDestinations(): Set<MainDestination> = MainDestination.entries.filter {
+        when (it) {
+            MainDestination.TODAY -> featureSplit
+            MainDestination.CALENDAR -> featureCalendar
+            MainDestination.FOLDERS -> featureFolders
+            else -> true
+        }
+    }.toSet()
+
+    private fun navigationItems() = NavigationConfig.visible(prefs.getString(NavigationConfig.KEY, null), availableDestinations())
 
     // Прочитаем после прохождения онбординга и зафиксируем на время жизни активности.
     // Изменение флагов в настройках применится после следующего onCreate (recreate),
@@ -58,13 +78,12 @@ class MainActivity : AppCompatActivity() {
 
     private val backStackListener = FragmentManager.OnBackStackChangedListener {
         val inModal = supportFragmentManager.backStackEntryCount > 0
-        // FAB живёт в центральном слоте bottom-nav и доступен на любой вкладке,
-        // включая «Настройки». Прячем только внутри модальных экранов
-        // (AddTask/Архив/Папки), где он перекрывал бы их собственные действия.
+        // Кнопка создания независима от выбранного состава нижней панели.
+        // В модальной форме её скрываем.
         binding.fabAdd.isVisible = !inModal
         // Restore title to the currently-selected main destination on back
         if (!inModal) {
-            binding.tvTopBarTitle.text = titleForId(binding.bottomNav.selectedItemId)
+            binding.tvTopBarTitle.text = titleFor(currentDestination)
         }
     }
 
@@ -124,9 +143,12 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener(backStackListener)
 
+        currentDestination = savedInstanceState?.getString("destination")?.let { key ->
+            MainDestination.entries.firstOrNull { it.key == key }
+        } ?: navigationItems().first()
         setupBottomNav()
         setupFab()
-        setupDonateButton()
+        setupAppMenu()
         requestNotifPermission()
         scheduleDaily(this)
 
@@ -144,82 +166,139 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (savedInstanceState == null) {
-            if (featureSplit) {
-                // nav_today — дефолтно выбранный пункт меню, поэтому фрагмент
-                // нужно показать вручную: программное присвоение того же
-                // selectedItemId не триггерит listener.
-                showFragment(TodayFragment())
-            } else {
-                // nav_today скрыт — стартуем сразу на объединённой вкладке.
-                // Присвоение нового selectedItemId триггерит listener, который
-                // сам инфлейтит StackFragment.newMerged().
-                binding.bottomNav.selectedItemId = R.id.nav_stack
-            }
+        if (savedInstanceState == null || currentDestination !in availableDestinations()) {
+            navigateTo(navigationItems().first())
+        } else {
+            binding.tvTopBarTitle.text = titleFor(currentDestination)
         }
     }
 
-    /**
-     * Применяет текущие feature-флаги к bottom-nav: видимость вкладок «Сегодня»
-     * и «Календарь», а также заголовок «Стек» / «Задачи». Идемпотентно — можно
-     * вызывать после каждого изменения настроек.
-     */
     fun applyFeatureFlagsToNav() {
-        val menu = binding.bottomNav.menu
-        menu.findItem(R.id.nav_today)?.isVisible    = featureSplit
-        menu.findItem(R.id.nav_calendar)?.isVisible = featureCalendar
-        menu.findItem(R.id.nav_stack)?.setTitle(
-            if (featureSplit) R.string.nav_stack else R.string.nav_tasks
-        )
-        // Состав вкладок изменился — центральный слот уехал, двигаем за ним FAB.
-        alignFabToCenterSlot()
+        if (!::binding.isInitialized) return
+        setupBottomNav()
+        if (currentDestination !in availableDestinations() || currentDestination !in navigationItems()) {
+            navigateTo(navigationItems().first())
+        }
     }
 
-    /**
-     * Ставит FAB ровно по центру пустого слота nav_placeholder.
-     *
-     * Constraint-разметка центрирует FAB по всей ширине bottom-nav, но при
-     * скрытых вкладках «Сегодня»/«Календарь» пустой слот перестаёт совпадать
-     * с геометрическим центром панели (BottomNavigationView раскладывает
-     * только видимые пункты). Поэтому после каждого layout'а сдвигаем FAB
-     * через translationX на разницу между центром слота и центром FAB.
-     */
-    private fun alignFabToCenterSlot() {
-        binding.bottomNav.post {
-            val slot = binding.bottomNav.findViewById<View>(R.id.nav_placeholder) ?: return@post
-            if (slot.width == 0 || binding.fabAdd.width == 0) return@post
-            val slotCenter = binding.bottomNav.left + slot.left + slot.width / 2f
-            val fabCenter  = binding.fabAdd.left + binding.fabAdd.width / 2f
-            binding.fabAdd.translationX = slotCenter - fabCenter
-        }
+    private fun menuId(destination: MainDestination): Int = when (destination) {
+        MainDestination.TODAY -> R.id.nav_today
+        MainDestination.STACK -> R.id.nav_stack
+        MainDestination.BOARD -> R.id.nav_board
+        MainDestination.CALENDAR -> R.id.nav_calendar
+        MainDestination.FOLDERS -> R.id.nav_folders
+        MainDestination.ARCHIVE -> R.id.nav_archive
+        MainDestination.SETTINGS -> R.id.nav_settings
+    }
+
+    private fun menuIcon(destination: MainDestination): Int = when (destination) {
+        MainDestination.TODAY -> R.drawable.ic_target
+        MainDestination.STACK -> R.drawable.ic_stack
+        MainDestination.BOARD -> R.drawable.ic_board
+        MainDestination.CALENDAR -> R.drawable.ic_calendar
+        MainDestination.FOLDERS -> android.R.drawable.ic_menu_agenda
+        MainDestination.ARCHIVE -> R.drawable.ic_archive
+        MainDestination.SETTINGS -> R.drawable.ic_settings
+    }
+
+    private fun titleFor(destination: MainDestination): String = when (destination) {
+        MainDestination.TODAY -> getString(R.string.screen_title_today)
+        MainDestination.STACK -> getString(if (featureSplit) R.string.screen_title_stack else R.string.nav_tasks)
+        MainDestination.BOARD -> "Канбан"
+        MainDestination.CALENDAR -> getString(R.string.screen_title_calendar)
+        MainDestination.FOLDERS -> "Папки"
+        MainDestination.ARCHIVE -> "Архив"
+        MainDestination.SETTINGS -> getString(R.string.screen_title_settings)
     }
 
     private fun setupBottomNav() {
-        // Применяем выбор пользователя из онбординга/настроек.
-        applyFeatureFlagsToNav()
-
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            val fragment = when (item.itemId) {
-                R.id.nav_today    -> TodayFragment()
-                R.id.nav_stack    -> if (featureSplit) StackFragment() else StackFragment.newMerged()
-                R.id.nav_calendar -> CalendarFragment()
-                R.id.nav_settings -> SettingsFragment()
-                else -> return@setOnItemSelectedListener false
-            }
-            // If a modal is open (AddTask/Settings), pop it before switching tabs
-            if (supportFragmentManager.backStackEntryCount > 0) {
-                supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            }
-            showFragment(fragment)
-            binding.tvTopBarTitle.text = titleForId(item.itemId)
-            binding.fabAdd.isVisible = true
-            true
+        binding.bottomNav.setOnItemSelectedListener(null)
+        binding.bottomNav.setOnItemReselectedListener(null)
+        val menu = binding.bottomNav.menu
+        menu.clear()
+        navigationItems().forEachIndexed { index, destination ->
+            menu.add(0, menuId(destination), index, titleFor(destination)).setIcon(menuIcon(destination)).isCheckable = true
         }
+        if (currentDestination in navigationItems()) binding.bottomNav.selectedItemId = menuId(currentDestination)
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            val destination = MainDestination.entries.firstOrNull { menuId(it) == item.itemId }
+            if (destination != null && !syncingNavigation) navigateTo(destination)
+            destination != null
+        }
+        binding.bottomNav.setOnItemReselectedListener { item ->
+            if (!syncingNavigation) {
+                MainDestination.entries.firstOrNull { menuId(it) == item.itemId }?.let(::navigateTo)
+            }
+        }
+    }
 
-        // If a modal is open and the user taps the same tab, close the modal
-        binding.bottomNav.setOnItemReselectedListener {
-            if (supportFragmentManager.backStackEntryCount > 0) {
-                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    private fun navigateTo(destination: MainDestination) {
+        if (destination !in availableDestinations()) return
+        supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        val fragment = when (destination) {
+            MainDestination.TODAY -> TodayFragment()
+            MainDestination.STACK -> if (featureSplit) StackFragment() else StackFragment.newMerged()
+            MainDestination.BOARD -> KanbanFragment()
+            MainDestination.CALENDAR -> CalendarFragment()
+            MainDestination.FOLDERS -> FoldersFragment()
+            MainDestination.ARCHIVE -> ArchiveFragment()
+            MainDestination.SETTINGS -> SettingsFragment()
+        }
+        // Раздел, убранный с панели, открывается поверх текущего. «Назад» возвращает
+        // в выбранный раздел, и подсветка нижней панели остаётся правдивой.
+        if (destination !in navigationItems()) {
+            openModalFragment(fragment, titleFor(destination))
+            return
+        }
+        currentDestination = destination
+        showFragment(fragment)
+        binding.tvTopBarTitle.text = titleFor(destination)
+        binding.fabAdd.isVisible = true
+        syncingNavigation = true
+        if (binding.bottomNav.selectedItemId != menuId(destination)) {
+            binding.bottomNav.selectedItemId = menuId(destination)
+        }
+        syncingNavigation = false
+    }
+
+    fun showNavigationEditor() {
+        NavigationEditor.show(this, prefs, availableDestinations(), ::titleFor) { applyFeatureFlagsToNav() }
+    }
+
+    fun openTaskExport() { startActivity(Intent(this, TaskExportActivity::class.java)) }
+
+    fun openKanban() { navigateTo(MainDestination.BOARD) }
+
+    fun addQuickCaptureWidget() {
+        val manager = getSystemService(AppWidgetManager::class.java)
+        if (manager.isRequestPinAppWidgetSupported) {
+            manager.requestPinAppWidget(ComponentName(this, QuickAddWidget::class.java), null, null)
+        } else {
+            Toast.makeText(this, "На главном экране удерживайте пустое место → Виджеты → KotaTask", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupAppMenu() {
+        binding.btnDonate.text = "⋮"
+        binding.btnDonate.contentDescription = "Все разделы и действия"
+        binding.btnDonate.setOnClickListener { anchor ->
+            PopupMenu(this, anchor).apply {
+                availableDestinations().forEach { menu.add(0, menuId(it), 0, titleFor(it)) }
+                menu.add(1, 1001, 100, "Экспорт задач")
+                menu.add(1, 1002, 101, "Настроить нижнее меню")
+                menu.add(1, 1003, 102, "Добавить виджет")
+                menu.add(1, 1004, 103, "Поддержать проект")
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        1001 -> openTaskExport()
+                        1002 -> showNavigationEditor()
+                        1003 -> addQuickCaptureWidget()
+                        1004 -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.cloudtips.ru/p/e0ddf2ed")))
+                        else -> MainDestination.entries.firstOrNull { menuId(it) == item.itemId }?.let(::navigateTo)
+                    }
+                    true
+                }
+                show()
             }
         }
     }
@@ -227,12 +306,6 @@ class MainActivity : AppCompatActivity() {
     private fun setupFab() {
         binding.fabAdd.setOnClickListener {
             openModalFragment(AddTaskFragment(), getString(R.string.screen_title_add))
-        }
-    }
-
-    private fun setupDonateButton() {
-        binding.btnDonate.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.cloudtips.ru/p/e0ddf2ed")))
         }
     }
 
@@ -275,16 +348,7 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("modal_$title")
             .commit()
         binding.tvTopBarTitle.text = title
-    }
-
-    private fun titleForId(id: Int): String = when (id) {
-        R.id.nav_today    -> getString(R.string.screen_title_today)
-        R.id.nav_stack    -> getString(
-            if (featureSplit) R.string.screen_title_stack else R.string.nav_tasks
-        )
-        R.id.nav_calendar -> getString(R.string.screen_title_calendar)
-        R.id.nav_settings -> getString(R.string.screen_title_settings)
-        else              -> getString(R.string.app_name)
+        binding.fabAdd.isVisible = false
     }
 
     /** Открывает модальный фрагмент с заданным заголовком — публичный API для других фрагментов. */
@@ -296,12 +360,7 @@ class MainActivity : AppCompatActivity() {
      * Закрывает модальный экран и переключает нижнюю навигацию на вкладку «Стек».
      * Вызывается из AddTaskFragment после успешного создания новой задачи (не редактирования).
      */
-    fun navigateToStack() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        }
-        binding.bottomNav.selectedItemId = R.id.nav_stack
-    }
+    fun navigateToStack() { navigateTo(MainDestination.STACK) }
 
     private fun requestNotifPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -315,10 +374,8 @@ class MainActivity : AppCompatActivity() {
     /**
      * Корректируем видимость FAB после полного восстановления состояния.
      *
-     * setOnItemSelectedListener не стреляет при восстановлении selectedItemId
-     * через onRestoreInstanceState() (BottomNavigationView восстанавливает
-     * выделение напрямую, минуя слушателя), поэтому после recreate() (смена
-     * темы) видимость FAB и его позицию в центральном слоте пересчитываем здесь.
+     * После recreate() и восстановления back stack видимость кнопки
+     * зависит от того, открыта ли модальная форма.
      *
      * onResume() вызывается ПОСЛЕ onRestoreInstanceState(), поэтому состав
      * вкладок и выбранный пункт здесь уже восстановлены.
@@ -330,8 +387,12 @@ class MainActivity : AppCompatActivity() {
         if (::binding.isInitialized) {
             val inModal = supportFragmentManager.backStackEntryCount > 0
             binding.fabAdd.isVisible = !inModal
-            alignFabToCenterSlot()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("destination", currentDestination.key)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onDestroy() {

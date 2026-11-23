@@ -9,6 +9,9 @@ interface LocationDao {
     @Query("SELECT * FROM locations ORDER BY name COLLATE NOCASE ASC")
     fun getAll(): LiveData<List<Location>>
 
+    @Query("SELECT * FROM locations ORDER BY name COLLATE NOCASE ASC")
+    suspend fun getAllOnce(): List<Location>
+
     @Query("SELECT * FROM locations WHERE id = :id")
     suspend fun getById(id: String): Location?
 

@@ -111,6 +111,9 @@ struct BoardCard: View {
 
     private var chips: some View {
         FlowLayout(spacing: 5, lineSpacing: 5) {
+            if task.needsDetails {
+                Chip(text: "Дополнить", symbol: "square.and.pencil", foreground: Palette.onWarning, background: Palette.warningSoft)
+            }
             if task.status == .today {
                 Chip(text: "Сегодня", symbol: "sun.max.fill", foreground: Palette.onWarning, background: Palette.warningSoft)
             }

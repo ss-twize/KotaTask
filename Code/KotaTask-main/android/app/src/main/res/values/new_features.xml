@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_quick_add_hint">Записать задачу…</string>
+    <string name="widget_quick_add_description">Быстро записать название задачи в KotaTask</string>
+    <item name="quickCaptureTitle" type="id" />
+    <item name="quickCaptureSave" type="id" />
+    <item name="nav_board" type="id" />
+    <item name="nav_folders" type="id" />
+    <item name="nav_archive" type="id" />
+    <style name="Theme.KotaTask.QuickCapture" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorSurface">@color/bg_surface</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:fontFamily">@font/manrope</item>
+    </style>
+</resources>

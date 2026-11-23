@@ -88,6 +88,19 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvNeedsDetails"
+                style="@style/Kt.Text.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:background="@drawable/bg_chip_yellow"
+                android:text="✎ Дополнить задачу"
+                android:textColor="@color/text_primary"
+                android:visibility="gone" />
+
             <!-- ═══ Context (location) — 2nd most prominent after title ═══ -->
             <LinearLayout
                 android:id="@+id/contextRow"

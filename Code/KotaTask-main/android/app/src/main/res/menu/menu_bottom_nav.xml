@@ -8,12 +8,10 @@
         android:id="@+id/nav_stack"
         android:icon="@drawable/ic_stack"
         android:title="@string/nav_stack"/>
-    <!-- Пустой слот по центру: под ним живёт FAB добавления задачи. -->
     <item
-        android:id="@+id/nav_placeholder"
-        android:icon="@drawable/ic_nav_placeholder"
-        android:enabled="false"
-        android:title=""/>
+        android:id="@id/nav_board"
+        android:icon="@drawable/ic_board"
+        android:title="Канбан"/>
     <item
         android:id="@+id/nav_calendar"
         android:icon="@drawable/ic_calendar"

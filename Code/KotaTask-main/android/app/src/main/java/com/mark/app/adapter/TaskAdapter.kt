@@ -91,6 +91,7 @@ class TaskAdapter(
 
         // ═══ Title ═══
         b.tvTitle.text = task.title
+        b.tvNeedsDetails.isVisible = task.needsDetails
 
         // ═══ Importance: stripe + pill ═══
         val (stripeRes, dotRes, importanceText) = when (task.importance) {

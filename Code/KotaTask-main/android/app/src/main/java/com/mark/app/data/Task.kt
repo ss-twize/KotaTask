@@ -31,5 +31,9 @@ data class Task(
      * Задача остаётся в статусе «Стек», пока в 00:00 нужного дня воркер не переведёт
      * её в «Сегодня» и не очистит это поле.
      */
-    @ColumnInfo(name = "deferredDate") val deferredDate: String = ""
+    @ColumnInfo(name = "deferredDate") val deferredDate: String = "",
+    /** Быстрый захват: полную форму ещё нужно заполнить. */
+    val needsDetails: Boolean = false,
+    /** Порядок внутри проектной колонки, независимо от статуса Сегодня/Стек. */
+    val sortIndex: Double = 0.0
 )

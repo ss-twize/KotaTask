@@ -1,0 +1,2 @@
+90a02227b973da2f08cd19b34b008f5a5f9ff3b03436fa32b74cd587fa6d8d57  KotaTask-1.1-beta-android.apk
+72ee30c5b157e7e731b42bda2a045ee921d79a8838db1b45e9a644a9d58aee0e  KotaTask-1.1-mac.zip

@@ -33,6 +33,31 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
 
+        <activity
+            android:name=".ui.QuickCaptureActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.KotaTask.QuickCapture"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity android:name=".ui.TaskExportActivity" android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.exports"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/export_paths" />
+        </provider>
+        <receiver
+            android:name=".widget.QuickAddWidget"
+            android:label="@string/widget_quick_add_hint"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/quick_add_widget_info" />
+        </receiver>
+
         <receiver
             android:name=".util.BootReceiver"
             android:enabled="true"

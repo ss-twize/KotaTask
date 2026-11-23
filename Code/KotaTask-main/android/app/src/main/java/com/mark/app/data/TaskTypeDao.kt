@@ -9,6 +9,9 @@ interface TaskTypeDao {
     @Query("SELECT * FROM task_types ORDER BY name COLLATE NOCASE ASC")
     fun getAll(): LiveData<List<TaskType>>
 
+    @Query("SELECT * FROM task_types ORDER BY name COLLATE NOCASE ASC")
+    suspend fun getAllOnce(): List<TaskType>
+
     @Query("SELECT * FROM task_types WHERE id = :id")
     suspend fun getById(id: String): TaskType?
 

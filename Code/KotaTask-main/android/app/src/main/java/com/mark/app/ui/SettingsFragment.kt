@@ -39,6 +39,10 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.findViewById<View>(R.id.btnCustomizeNavigation).setOnClickListener { (activity as? MainActivity)?.showNavigationEditor() }
+        view.findViewById<View>(R.id.btnExportTasks).setOnClickListener { (activity as? MainActivity)?.openTaskExport() }
+        view.findViewById<View>(R.id.btnOpenKanban).setOnClickListener { (activity as? MainActivity)?.openKanban() }
+        view.findViewById<View>(R.id.btnPinQuickWidget).setOnClickListener { (activity as? MainActivity)?.addQuickCaptureWidget() }
         setupThemeSelector()
         setupFeatureToggles()
         setupCalendarModeSelector()

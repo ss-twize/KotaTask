@@ -24,6 +24,8 @@
             android:textColor="@color/text_secondary"
             android:text="@string/settings_subheading"/>
 
+        <include layout="@layout/settings_new_features" />
+
         <!-- ═══ Theme card ═══ -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
